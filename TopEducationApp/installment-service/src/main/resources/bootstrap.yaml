@@ -1,0 +1,22 @@
+spring:
+  devtools:
+    restart:
+      aditional-paths: src/main/java
+  application:
+    name: installment-service
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    plataform: postgres
+    driver-class-name: org.postgresql.Driver
+    dbname: tem-installments
+    url: jdbc:postgresql://localhost:5432/tem-installments?autorReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+    username: postgres
+    password: 1502
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8081

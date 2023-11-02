@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>TopEducation</groupId>
-	<artifactId>student_score-service</artifactId>
+	<artifactId>score-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>student_score-service</name>
 	<description>Student score service</description>
