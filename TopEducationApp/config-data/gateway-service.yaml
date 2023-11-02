@@ -23,3 +23,8 @@ spring:
             allowed-methods: "*"
             allowed-headers: "*"
             allow-credentials: true
+      routes:
+        - id: installment-service
+          uri: lb://installment-service
+          predicates:
+            - Path=/installment/**
