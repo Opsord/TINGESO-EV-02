@@ -22,17 +22,22 @@ public class InstallmentService {
     }
 
     // Delete an installment
-    public void deleteInstallment(Long id) throws Exception {
+    public void deleteInstallment(Long id) {
         installmentRepository.deleteById(id);
     }
 
     // Delete all installments
     @Generated
-    public void deleteAllInstallments() throws Exception {
+    public void deleteAllInstallments() {
         installmentRepository.deleteAll();
     }
 
     // Find by methods
+
+    // Find an installment by id
+    public InstallmentEntity findInstallmentById(Long id) {
+        return installmentRepository.findById(id).orElse(null);
+    }
 
     // Find all installments
     public List<InstallmentEntity> getAllInstallments() {

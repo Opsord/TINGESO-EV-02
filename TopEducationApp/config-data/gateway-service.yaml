@@ -27,4 +27,16 @@ spring:
         - id: installment-service
           uri: lb://installment-service
           predicates:
-            - Path=/installment/**
+            - Path=/installments/**
+        - id: score-service
+          uri: lb://score-service
+          predicates:
+            - Path=/scores/**
+        - id: student-service
+          uri: lb://student-service
+          predicates:
+            - Path=/students/**
+        - id: file_manager-service
+          uri: lb://file_manager-service
+          predicates:
+            - Path=/files/**
