@@ -22,11 +22,23 @@ public class FileManagerController {
     public String uploadStudentsExcel(@RequestParam("file") MultipartFile file) {
         try {
             // Save students data from Excel file
-            fileManagerService.saveStudentDataFromExcel(file);
+            fileManagerService.saveStudentsFromExcel(file);
             return "Students data saved successfully";
         } catch (IOException e) {
             // Handle the exception and return an error response
             return "Error saving students data";
+        }
+    }
+
+    @PostMapping("/uploadScores")
+    public String uploadScoresExcel(@RequestParam("file") MultipartFile file) {
+        try {
+            // Save scores data from Excel file
+            fileManagerService.saveScoresFromExcel(file);
+            return "Scores data saved successfully";
+        } catch (IOException e) {
+            // Handle the exception and return an error response
+            return "Error saving scores data";
         }
     }
 

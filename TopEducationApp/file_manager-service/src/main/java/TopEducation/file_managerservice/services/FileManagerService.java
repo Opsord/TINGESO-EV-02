@@ -1,5 +1,6 @@
 package TopEducation.file_managerservice.services;
 
+import TopEducation.file_managerservice.models.ScoreModel;
 import TopEducation.file_managerservice.models.StudentModel;
 import lombok.Generated;
 import org.apache.poi.ss.usermodel.Row;
@@ -29,7 +30,7 @@ public class FileManagerService {
 
     // Save student data from an Excel file
     @Generated
-    public void saveStudentDataFromExcel(MultipartFile file) throws IOException {
+    public void saveStudentsFromExcel(MultipartFile file) throws IOException {
 
         logger.info("Saving student data from Excel file");
 
@@ -123,5 +124,70 @@ public class FileManagerService {
 
         logger.info("Student data saved successfully");
     }
+
+    // Save score data from an Excel file
+    @Generated
+    public void saveScoresFromExcel(MultipartFile file) throws IOException {
+        logger.info("Saving score data from Excel file");
+
+        // Verify if the Excel file is xlsx type
+        if (Objects.requireNonNull(file.getOriginalFilename()).endsWith(".xlsx")) {
+            logger.info("Excel file is xlsx type");
+
+            try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
+                // Iterate through the sheets
+                for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+                    Sheet sheet = workbook.getSheetAt(i);
+
+                    // Iterate through the rows
+                    for (Row currentRow : sheet) {
+                        if (currentRow.getRowNum() == 0) {
+                            continue; // Skip header row
+                        }
+
+                        if (currentRow.getCell(0) == null) {
+                            break; // Stop reading the file
+                        }
+
+                        // Getting the score values from the Excel file
+                        String scoreRUT = currentRow.getCell(0).getStringCellValue();
+
+                        int score = (int) currentRow.getCell(1).getNumericCellValue();
+
+                        LocalDate examDate = currentRow.getCell(2).getLocalDateTimeCellValue().toLocalDate();
+
+                        // Create a new score object
+                        ScoreModel scoreModel = new ScoreModel();
+
+                        scoreModel.setScoreRUT(scoreRUT);
+                        scoreModel.setScore(score);
+                        scoreModel.setExamDate(examDate);
+
+                        // Send the score object to the student service
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.setContentType(MediaType.APPLICATION_JSON);
+
+                        HttpEntity<ScoreModel> request = new HttpEntity<>(scoreModel, headers);
+                        ResponseEntity<ScoreModel> response = restTemplate.exchange(
+                                "http://localhost:8080/scores",
+                                HttpMethod.POST,
+                                request,
+                                new ParameterizedTypeReference<>() {
+                                });
+                        if (response.getStatusCode() == HttpStatus.OK)
+                            logger.info("Score for rut " + scoreRUT + " saved successfully");
+                        else {
+                            logger.info("Error saving score");
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                logger.info(e.toString());
+            }
+        }
+
+        logger.info("Score data saved successfully");
+    }
+
 
 }

@@ -40,3 +40,7 @@ spring:
           uri: lb://file-manager-service
           predicates:
             - Path=/files/**
+        - id: aadministration_office-service
+          uri: lb://administration_office-service
+          predicates:
+            - Path=/admin_off/**
