@@ -27,19 +27,6 @@ public class FileManagerService {
     @Autowired
     RestTemplate restTemplate;
 
-    // Send a student object to the student service
-    @Generated
-    public void sendStudentPostRequest(StudentModel model) {
-        String otherServiceUrl = "http://localhost:8081/students";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<StudentModel> request = new HttpEntity<>(model, headers);
-
-        restTemplate.postForEntity(otherServiceUrl, request, StudentModel.class);
-    }
-
     // Save student data from an Excel file
     @Generated
     public void saveStudentDataFromExcel(MultipartFile file) throws IOException {
@@ -58,6 +45,10 @@ public class FileManagerService {
                 for (Row currentRow : sheet) {
                     if (currentRow.getRowNum() == 0) {
                         continue; // Skip header row
+                    }
+
+                    if (currentRow.getCell(0) == null) {
+                        break; // Stop reading the file
                     }
 
                     // Getting the student values from the Excel file
@@ -80,7 +71,7 @@ public class FileManagerService {
                     switch (schoolType) {
                         case "Municipal" -> schoolTypeInt = 0;
                         case "Subvencionado" -> schoolTypeInt = 1;
-                        case "Particular" -> schoolTypeInt = 2;
+                        case "Privado" -> schoolTypeInt = 2;
                         default -> throw new IllegalStateException("Unexpected value: " + schoolType);
                     }
                     int graduationYear = (int) currentRow.getCell(6).getNumericCellValue();
@@ -100,7 +91,7 @@ public class FileManagerService {
                     student.setAgreedInstallments(agreedInstallments);
 
                     // Complete the student object with temporary values
-                    student.setExamsTaken(0);
+                    student.setExamsTaken(5);
                     student.setAverageGrade(0);
                     student.setPaymentMethod("Cash");
                     student.setInstallmentsPaid(0);
@@ -108,31 +99,25 @@ public class FileManagerService {
                     student.setLastPaymentDate(LocalDate.now());
                     student.setTotalAmountToPay(0);
 
-                    System.out.println(student);
-
                     // Send the student object to the student service
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
 
-                    // Attempt 1
-                    restTemplate.postForObject("http://localhost:8081/students", student, StudentModel.class);
-
-                    // Attempt 2
-                    ResponseEntity<StudentModel> response = restTemplate.postForEntity("http://localhost:8081/students", student, StudentModel.class);
-
-                    // Attempt 3
-                    ResponseEntity<StudentModel> response2 = restTemplate.exchange(
+                    HttpEntity<StudentModel> request = new HttpEntity<>(student, headers);
+                    ResponseEntity<StudentModel> response = restTemplate.exchange(
                             "http://localhost:8080/students",
                             HttpMethod.POST,
-                            new HttpEntity<>(student),
-                            new ParameterizedTypeReference<StudentModel>() {}
-                    );
-
-                    // Attempt 4
-                    sendStudentPostRequest(student);
-
+                            request,
+                            new ParameterizedTypeReference<>() {
+                            });
+                    if (response.getStatusCode() == HttpStatus.OK) {
+                        logger.info("Data for student " + rut + " saved successfully");
+                    } else {
+                        logger.info("Error saving student data");
+                    }
                 }
-
             } catch (Exception e) {
-                // Handle exception
+                logger.info(e.toString());
             }
         }
 
