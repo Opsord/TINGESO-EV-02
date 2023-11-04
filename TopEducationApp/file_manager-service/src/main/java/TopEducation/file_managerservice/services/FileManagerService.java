@@ -7,6 +7,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,19 +16,39 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 @Service
 
 public class FileManagerService {
 
+    Logger logger = Logger.getLogger(getClass().getName());
+
     @Autowired
     RestTemplate restTemplate;
 
+    // Send a student object to the student service
+    @Generated
+    public void sendStudentPostRequest(StudentModel model) {
+        String otherServiceUrl = "http://localhost:8081/students";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<StudentModel> request = new HttpEntity<>(model, headers);
+
+        restTemplate.postForEntity(otherServiceUrl, request, StudentModel.class);
+    }
+
+    // Save student data from an Excel file
     @Generated
     public void saveStudentDataFromExcel(MultipartFile file) throws IOException {
 
+        logger.info("Saving student data from Excel file");
+
         // Verify if the Excel file is xlsx type
         if (Objects.requireNonNull(file.getOriginalFilename()).endsWith(".xlsx")) {
+            logger.info("Excel file is xlsx type");
 
             try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
                 Sheet sheet = workbook.getSheetAt(0);
@@ -34,6 +56,10 @@ public class FileManagerService {
                 // Getting the students from the Excel file
 
                 for (Row currentRow : sheet) {
+                    if (currentRow.getRowNum() == 0) {
+                        continue; // Skip header row
+                    }
+
                     // Getting the student values from the Excel file
                     String rut = currentRow.getCell(0).getStringCellValue();
 
@@ -73,13 +99,44 @@ public class FileManagerService {
                     student.setGraduationYear(graduationYear);
                     student.setAgreedInstallments(agreedInstallments);
 
+                    // Complete the student object with temporary values
+                    student.setExamsTaken(0);
+                    student.setAverageGrade(0);
+                    student.setPaymentMethod("Cash");
+                    student.setInstallmentsPaid(0);
+                    student.setOverdueInstallments(0);
+                    student.setLastPaymentDate(LocalDate.now());
+                    student.setTotalAmountToPay(0);
+
+                    System.out.println(student);
+
                     // Send the student object to the student service
+
+                    // Attempt 1
                     restTemplate.postForObject("http://localhost:8081/students", student, StudentModel.class);
+
+                    // Attempt 2
+                    ResponseEntity<StudentModel> response = restTemplate.postForEntity("http://localhost:8081/students", student, StudentModel.class);
+
+                    // Attempt 3
+                    ResponseEntity<StudentModel> response2 = restTemplate.exchange(
+                            "http://localhost:8080/students",
+                            HttpMethod.POST,
+                            new HttpEntity<>(student),
+                            new ParameterizedTypeReference<StudentModel>() {}
+                    );
+
+                    // Attempt 4
+                    sendStudentPostRequest(student);
+
                 }
+
             } catch (Exception e) {
                 // Handle exception
             }
         }
+
+        logger.info("Student data saved successfully");
     }
 
 }
