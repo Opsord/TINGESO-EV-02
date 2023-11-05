@@ -43,4 +43,4 @@ spring:
         - id: aadministration_office-service
           uri: lb://administration_office-service
           predicates:
-            - Path=/admin_off/**
+            - Path=/administrationOffice/**
