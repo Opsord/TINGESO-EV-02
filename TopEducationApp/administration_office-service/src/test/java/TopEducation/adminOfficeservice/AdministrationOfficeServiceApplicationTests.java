@@ -1,4 +1,4 @@
-package TopEducation.administration_officeservice;
+package TopEducation.adminOfficeservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

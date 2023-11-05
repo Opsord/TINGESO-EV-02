@@ -1,4 +1,4 @@
-package TopEducation.administration_officeservice;
+package TopEducation.adminOfficeservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,11 +1,11 @@
-package TopEducation.administration_officeservice.services;
+package TopEducation.adminOfficeservice.services;
 
-import TopEducation.administration_officeservice.models.InstallmentModel;
-import TopEducation.administration_officeservice.models.ScoreModel;
-import TopEducation.administration_officeservice.models.StudentModel;
+import TopEducation.adminOfficeservice.models.InstallmentModel;
+import TopEducation.adminOfficeservice.models.ScoreModel;
+import TopEducation.adminOfficeservice.models.StudentModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -27,19 +27,18 @@ public class AdministrationOfficeService {
     // Communication with other microservices
 
     // Get a student by RUT
-    public StudentModel getStudentByRUT(String rut) {
-        String url = "http://localhost:8080/students/" + rut;
-        try {
-            ResponseEntity<StudentModel> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, StudentModel.class);
-            if (responseEntity.getStatusCode() == HttpStatus.OK) {
-                return responseEntity.getBody();
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            logger.info("Error: " + e.getMessage());
-            return null;
-        }
+    public StudentModel findByRut(String rut) {
+        System.out.println("1");
+        logger.info("Finding RUT: " + rut);
+        ResponseEntity<StudentModel> response = restTemplate.exchange(
+                "http://localhost:8080/students/byRUT/" + rut,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<StudentModel>() {
+                }
+        );
+        System.out.println("2");
+        return response.getBody();
     }
 
     // Get all scores by RUT
@@ -62,12 +61,9 @@ public class AdministrationOfficeService {
         return restTemplate.getForObject("http://localhost:8080/installments/byRUT/overdue/" + rut, List.class);
     }
 
-    // Testing
-    // Get and print a student by RUT
-    public String getAndPrintStudentByRUT(String rut) {
-        StudentModel student = getStudentByRUT(rut);
-        return rut;
-    }
+
+
+
 
 
     // Constants

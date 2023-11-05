@@ -1,10 +1,11 @@
-package TopEducation.administration_officeservice.controllers;
+package TopEducation.adminOfficeservice.controllers;
 
-import TopEducation.administration_officeservice.models.ScoreModel;
-import TopEducation.administration_officeservice.models.StudentModel;
-import TopEducation.administration_officeservice.services.AdministrationOfficeService;
+import TopEducation.adminOfficeservice.models.ScoreModel;
+import TopEducation.adminOfficeservice.models.StudentModel;
+import TopEducation.adminOfficeservice.services.AdministrationOfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +20,11 @@ public class AdministrationOfficeController {
     AdministrationOfficeService administrationOfficeService;
 
     // Get a student by RUT
-    @RequestMapping("/{studentRUT}")
+    @GetMapping("/student/{studentRUT}")
     public ResponseEntity<StudentModel> findStudentByRUT(@PathVariable("studentRUT") String studentRUT) {
-        StudentModel student = administrationOfficeService.getStudentByRUT(studentRUT);
+        System.out.println("3");
+        StudentModel student = administrationOfficeService.findByRut(studentRUT);
+        System.out.println("4");
         System.out.println(student);
         if (student == null) {
             return ResponseEntity.noContent().build();

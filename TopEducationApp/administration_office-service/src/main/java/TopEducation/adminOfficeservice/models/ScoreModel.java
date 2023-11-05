@@ -1,4 +1,4 @@
-package TopEducation.administration_officeservice.models;
+package TopEducation.adminOfficeservice.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

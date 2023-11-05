@@ -1,4 +1,4 @@
-package TopEducation.administration_officeservice.config;
+package TopEducation.adminOfficeservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
