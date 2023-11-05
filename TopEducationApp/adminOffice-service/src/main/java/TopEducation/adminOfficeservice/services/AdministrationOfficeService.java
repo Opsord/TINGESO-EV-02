@@ -28,7 +28,6 @@ public class AdministrationOfficeService {
 
     // Get a student by RUT
     public StudentModel findByRut(String rut) {
-        System.out.println("1");
         logger.info("Finding RUT: " + rut);
         ResponseEntity<StudentModel> response = restTemplate.exchange(
                 "http://localhost:8080/students/byRUT/" + rut,
@@ -37,7 +36,6 @@ public class AdministrationOfficeService {
                 new ParameterizedTypeReference<StudentModel>() {
                 }
         );
-        System.out.println("2");
         return response.getBody();
     }
 

@@ -22,10 +22,7 @@ public class AdministrationOfficeController {
     // Get a student by RUT
     @GetMapping("/student/{studentRUT}")
     public ResponseEntity<StudentModel> findStudentByRUT(@PathVariable("studentRUT") String studentRUT) {
-        System.out.println("3");
         StudentModel student = administrationOfficeService.findByRut(studentRUT);
-        System.out.println("4");
-        System.out.println(student);
         if (student == null) {
             return ResponseEntity.noContent().build();
         } else {
