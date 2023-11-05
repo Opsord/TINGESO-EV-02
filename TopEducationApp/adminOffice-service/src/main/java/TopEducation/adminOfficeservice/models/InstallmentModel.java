@@ -22,6 +22,9 @@ public class InstallmentModel {
     // Installment status: 0 -> Pending, 1 -> Paid
     private int installmentStatus;
 
+    // Installment due date
+    private LocalDate installmentDueDate;
+
     // Installment payment date
     private LocalDate installmentPaymentDate;
 
@@ -29,5 +32,5 @@ public class InstallmentModel {
     private int installmentOverdueStatus;
 
     // Installment overdue price
-    private int installmentOverduePrice;
+    private int installmentOverduePenalty;
 }

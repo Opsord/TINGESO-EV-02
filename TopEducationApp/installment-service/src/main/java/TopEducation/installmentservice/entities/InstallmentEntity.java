@@ -30,12 +30,16 @@ public class InstallmentEntity {
     // Installment status: 0 -> Pending, 1 -> Paid
     private int installmentStatus;
 
+    // Installment due date
+    private LocalDate installmentDueDate;
+
     // Installment payment date
+    @Column(nullable = true)
     private LocalDate installmentPaymentDate;
 
     // Installment overdue status: 0 -> Not overdue, 1 -> Overdue
     private int installmentOverdueStatus;
 
     // Installment overdue price
-    private int installmentOverduePrice;
+    private int installmentOverduePenalty;
 }

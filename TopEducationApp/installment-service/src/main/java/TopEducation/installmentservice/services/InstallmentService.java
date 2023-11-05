@@ -60,20 +60,79 @@ public class InstallmentService {
     }
 
     // Verify is an installment is overdue
-    public boolean updateInstallmentOverdueStatus(InstallmentEntity installment) {
-        LocalDate paymentDate = installment.getInstallmentPaymentDate();
+    public void updateInstallmentOverdueStatus(InstallmentEntity installment) {
+        LocalDate dueDate = installment.getInstallmentDueDate();
         LocalDate currentDate = LocalDate.now();
-        if (currentDate.isAfter(paymentDate.plusMonths(1)) && installment.getInstallmentStatus() == 0) {
+        if (currentDate.isAfter(dueDate) && installment.getInstallmentStatus() == 0) {
             installment.setInstallmentOverdueStatus(1);
-            return true;
+        } else {
+            installment.setInstallmentOverdueStatus(0);
         }
-        installment.setInstallmentOverdueStatus(0);
-        return false;
+    }
+
+    // Update overdue status for installments by student RUT
+    public void updateAllInstallmentsOverdueStatusByRUT(String installmentRUT) {
+        List<InstallmentEntity> installments = findAllByInstallmentRUT(installmentRUT);
+        for (InstallmentEntity installment : installments) {
+            updateInstallmentOverdueStatus(installment);
+        }
+    }
+
+    // Update interest for installments by student RUT
+    public void updateOverduePenalty(String studentRUT) {
+        // Get the overdue installments for the student
+        List<InstallmentEntity> overdueInstallments = findAllOverdueInstallmentsByRUT(studentRUT);
+        // If there are overdue installments, calculate the interest and update the installment amount
+        if (overdueInstallments == null) {
+            return;
+        }
+        // Update the overdue installments
+        double interest = 0;
+        // Calculate the interest
+        interest = switch (overdueInstallments.size()) {
+            case 1 -> 0.03;
+            case 2 -> 0.06;
+            case 3 -> 0.09;
+            default -> 0.15;
+        };
+        // Update every installment overdue price
+        List<InstallmentEntity> installments = findAllByInstallmentRUT(studentRUT);
+        for (InstallmentEntity installment : installments) {
+            installment.setInstallmentOverduePenalty((int) (installment.getInstallmentAmount() * interest));
+            // Update the installment
+            saveInstallment(installment);
+        }
+    }
+
+    // Update installments by student RUT
+    public void updateInstallmentsByRUT(String studentRUT) {
+        updateAllInstallmentsOverdueStatusByRUT(studentRUT);
+        updateOverduePenalty(studentRUT);
+    }
+
+    // Update installments related to a student from a determined installment
+    public void updateInstallmentFromID(Long installmentID) {
+        // Get the installment
+        InstallmentEntity installment = findInstallmentById(installmentID);
+        // Get the student RUT
+        String studentRUT = installment.getInstallmentRUT();
+        // Update the installments
+        updateInstallmentsByRUT(studentRUT);
     }
 
     // Mark an installment as paid
-    public void markInstallmentAsPAid(InstallmentEntity installment) {
+    public void markInstallmentAsPAid(Long installmentID) {
+        // Get the installment
+        InstallmentEntity installment = findInstallmentById(installmentID);
+        // Mark the installment as paid
         installment.setInstallmentStatus(1);
+        // Set the overdue status to 0
+        installment.setInstallmentOverdueStatus(0);
+        // Set the payment date
+        installment.setInstallmentPaymentDate(LocalDate.now());
+
+        // Update the installment
+        saveInstallment(installment);
     }
 }
 

@@ -1,5 +1,6 @@
 package TopEducation.adminOfficeservice.controllers;
 
+import TopEducation.adminOfficeservice.models.InstallmentModel;
 import TopEducation.adminOfficeservice.models.ScoreModel;
 import TopEducation.adminOfficeservice.models.StudentModel;
 import TopEducation.adminOfficeservice.services.AdministrationOfficeService;
@@ -31,7 +32,7 @@ public class AdministrationOfficeController {
     }
 
     // Get all scores by RUT
-    @RequestMapping("/scores/{studentRUT}")
+    @GetMapping("/scores/{studentRUT}")
     public ResponseEntity<List<ScoreModel>> findScoresByRUT(@PathVariable("studentRUT") String studentRUT) {
         List<ScoreModel> scores = administrationOfficeService.getScoresByRUT(studentRUT);
         if (scores.isEmpty()) {
@@ -39,5 +40,45 @@ public class AdministrationOfficeController {
         } else {
             return ResponseEntity.ok(scores);
         }
+    }
+
+    // Get all installments for a student by RUT
+    @GetMapping("/installments/{studentRUT}")
+    public ResponseEntity<List<InstallmentModel>> findInstallmentsByRUT(@PathVariable("studentRUT") String studentRUT) {
+        List<InstallmentModel> installments = administrationOfficeService.getInstallmentsByRUT(studentRUT);
+        if (installments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(installments);
+        }
+    }
+
+    // Get all paid installments for a student by RUT
+    @GetMapping("/installments/paid/{studentRUT}")
+    public ResponseEntity<List<InstallmentModel>> findPaidInstallmentsByRUT(@PathVariable("studentRUT") String studentRUT) {
+        List<InstallmentModel> installments = administrationOfficeService.getPaidInstallmentsByRUT(studentRUT);
+        if (installments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(installments);
+        }
+    }
+
+    // Get all overdue installments for a student by RUT
+    @GetMapping("/installments/overdue/{studentRUT}")
+    public ResponseEntity<List<InstallmentModel>> findOverdueInstallmentsByRUT(@PathVariable("studentRUT") String studentRUT) {
+        List<InstallmentModel> installments = administrationOfficeService.getOverdueInstallmentsByRUT(studentRUT);
+        if (installments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(installments);
+        }
+    }
+
+    // Update a student
+    @GetMapping("/update/{studentRUT}")
+    public ResponseEntity<String> updateStudent(@PathVariable("studentRUT") String studentRUT) {
+        administrationOfficeService.updateStudentInfo(studentRUT);
+        return ResponseEntity.ok("Student updated successfully");
     }
 }

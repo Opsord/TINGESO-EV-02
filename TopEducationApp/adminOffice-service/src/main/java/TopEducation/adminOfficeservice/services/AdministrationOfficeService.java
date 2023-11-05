@@ -3,6 +3,7 @@ package TopEducation.adminOfficeservice.services;
 import TopEducation.adminOfficeservice.models.InstallmentModel;
 import TopEducation.adminOfficeservice.models.ScoreModel;
 import TopEducation.adminOfficeservice.models.StudentModel;
+import lombok.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -41,22 +42,77 @@ public class AdministrationOfficeService {
 
     // Get all scores by RUT
     public List<ScoreModel> getScoresByRUT(String rut) {
-        return restTemplate.getForObject("http://localhost:8080/scores/byRUT/" + rut, List.class);
+        logger.info("Finding scores for RUT: " + rut);
+        ResponseEntity<List<ScoreModel>> response = restTemplate.exchange(
+                "http://localhost:8080/scores/byRUT/" + rut,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<ScoreModel>>() {
+                }
+        );
+        return response.getBody();
     }
 
     // Get all installments by RUT
     public List<InstallmentModel> getInstallmentsByRUT(String rut) {
-        return restTemplate.getForObject("http://localhost:8080/installments/byRUT/" + rut, List.class);
+        logger.info("Finding installments for RUT: " + rut);
+        ResponseEntity<List<InstallmentModel>> response = restTemplate.exchange(
+                "http://localhost:8080/installments/byRUT/" + rut,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<InstallmentModel>>() {
+                }
+        );
+        return response.getBody();
     }
 
     // Get all paid installments by RUT
     public List<InstallmentModel> getPaidInstallmentsByRUT(String rut) {
-        return restTemplate.getForObject("http://localhost:8080/installments/byRUT/paid/" + rut, List.class);
+        logger.info("Finding paid installments for RUT: " + rut);
+        ResponseEntity<List<InstallmentModel>> response = restTemplate.exchange(
+                "http://localhost:8080/installments/byRUT/paid/" + rut,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<InstallmentModel>>() {
+                }
+        );
+        return response.getBody();
     }
 
     // Get all overdue installments by RUT
     public List<InstallmentModel> getOverdueInstallmentsByRUT(String rut) {
-        return restTemplate.getForObject("http://localhost:8080/installments/byRUT/overdue/" + rut, List.class);
+        logger.info("Finding overdue installments for RUT: " + rut);
+        ResponseEntity<List<InstallmentModel>> response = restTemplate.exchange(
+                "http://localhost:8080/installments/byRUT/overdue/" + rut,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<InstallmentModel>>() {
+                }
+        );
+        return response.getBody();
+    }
+
+
+
+    // Update student academic information (average score and exams taken) by RUT
+    public void updateStudentAcademicInfo(String studentRUT) {
+        logger.info("Updating student average score for RUT: " + studentRUT);
+        // Getting the student
+        StudentModel student = findByRut(studentRUT);
+        // Getting the scores
+        List<ScoreModel> scores = getScoresByRUT(studentRUT);
+        // Calculating the average score
+        int averageScore = 0;
+        for (ScoreModel score : scores) {
+            averageScore += score.getScore();
+        }
+        averageScore = averageScore / scores.size();
+        // Update the student´s exams taken
+        student.setExamsTaken(scores.size());
+        // Updating the student average score
+        student.setAverageGrade(averageScore);
+        // Saving the student
+        restTemplate.postForObject("http://localhost:8080/students", student, StudentModel.class);
     }
 
 
@@ -76,30 +132,9 @@ public class AdministrationOfficeService {
     // Cash payment method calculations
 
     // Calculate the annual cost if the payment is made in cash
-    public double calculateAnnualCostCash(StudentModel student) {
+    public double calculateAnnualCostCash() {
         return (enrollmentCost + annualDuty) * 0.5;
     }
-
-
-    // Installments payment method calculations
-
-    // Calculate the maximum number of installments
-    public int calculateMaxInstallments(StudentModel student) {
-        // Getting the school type of the student
-        int schoolType = student.getSchoolType();
-        int maxInstallments = 0;
-        // School type: 0 -> Municipal, 1 -> Subsidized, 2 -> Private
-        if (schoolType == 0) {
-            maxInstallments = 10;
-        } else if (schoolType == 1) {
-            maxInstallments = 7;
-        } else if (schoolType == 2) {
-            maxInstallments = 4;
-        }
-        return maxInstallments;
-    }
-
-
 
     // Discount calculations
 
@@ -166,6 +201,152 @@ public class AdministrationOfficeService {
         double averageScoreDis = calculateAverageScoreDiscount(student);
         // Calculating the final price
         return (int) (annualCost * (1 - schoolTypeDis - timeAfterGraduationDis - averageScoreDis));
+    }
+
+    // Calculate the total amount to pay depending on if the payment is made in cash or installments
+    public int calculateAnnualCost(StudentModel student) {
+        if (student.getAgreedInstallments() == 1) {
+            return (int) calculateAnnualCostCash();
+        } else {
+            return (int) calculateAnnualCostInstallments(student);
+        }
+    }
+
+    // Update last payment date
+    public void updateLastPaymentDate(String studentRUT) {
+        // Get the student
+        StudentModel student = findByRut(studentRUT);
+        // Get the paid installments of the student
+        List<InstallmentModel> paidInstallments = getPaidInstallmentsByRUT(student.getRut());
+        if (paidInstallments == null) {
+            student.setLastPaymentDate(null);
+            restTemplate.postForObject("http://localhost:8080/students", student, StudentModel.class);
+        } else {
+            // Get the payment date of the closest installment to the current date
+            LocalDate latestPaymentDate = LocalDate.of(LocalDate.now().getYear(), 1, 5);
+            for (InstallmentModel installment : paidInstallments) {
+                if (installment.getInstallmentPaymentDate().isAfter(latestPaymentDate)) {
+                    latestPaymentDate = installment.getInstallmentPaymentDate();
+                }
+            }
+            // Update the last payment date
+            student.setLastPaymentDate(latestPaymentDate);
+            restTemplate.postForObject("http://localhost:8080/students", student, StudentModel.class);
+        }
+    }
+
+    // Check if a student has missing installments and generate the missing ones
+    public void checkMissingInstallments(String studentRUT) {
+        // Get the student
+        StudentModel student = findByRut(studentRUT);
+        // Get the number of installments agreed by the student
+        int agreedInstallments = student.getAgreedInstallments();
+        // Get a list of the installments that match the RUT of the student
+        List<InstallmentModel> installments = getInstallmentsByRUT(student.getRut());
+        // Found installments
+        int foundInstallments = 0;
+        if (installments == null) {
+            logger.info("No installments found for RUT: " + student.getRut());
+        } else {
+            foundInstallments = installments.size();
+            logger.info("Found " + foundInstallments + " installments for the RUT: " + student.getRut());
+        }
+        // Calculate the number of installments that are missing
+        int missingInstallments = agreedInstallments - foundInstallments;
+
+        // Verify if there are missing installments
+        if (missingInstallments > 0) {
+            logger.info("Generating " + missingInstallments + " missing installments for RUT: " + student.getRut());
+            // Generate the missing installments
+            for (int i = 0; i < missingInstallments; i++) {
+                // Create a new installment
+                InstallmentModel installment = new InstallmentModel();
+                // Setting the values of the installment
+
+                // Set the RUT of the installment
+                installment.setInstallmentRUT(student.getRut());
+                // Set the amount of the installment
+                installment.setInstallmentAmount (calculateAnnualCost(student) / agreedInstallments);
+                // Set the status - Installment status: 0 -> Pending, 1 -> Paid
+                installment.setInstallmentStatus(0);
+                // Set the due date of the installment (starting from the 5th on january)
+                LocalDate startDate = LocalDate.of(LocalDate.now().getYear(), 1, 5);
+                installment.setInstallmentDueDate(startDate.plusMonths(i));
+                // Set the payment date of the installment to null
+                installment.setInstallmentPaymentDate(null);
+                // Set the overdue status - Installment overdue status: 0 -> Not overdue, 1 -> Overdue
+                installment.setInstallmentOverdueStatus(0);
+                // Set the overdue penalty
+                installment.setInstallmentOverduePenalty(0);
+
+                // Save the installment
+                restTemplate.postForObject("http://localhost:8080/installments", installment, InstallmentModel.class);
+            }
+        }
+
+    }
+
+    // Update student economic information
+    // (total amount paid, total amount to pay, installments paid, payment method) by RUT
+    public void updateStudentEconomicInfo(String studentRUT) {
+        // Get the student
+        StudentModel student = findByRut(studentRUT);
+
+        // Get a list of the installments that match the RUT of the student
+        List<InstallmentModel> installments = getInstallmentsByRUT(student.getRut());
+
+        // Calculate the total amount paid and paid installments
+        int totalAmountPaid = 0;
+        int paidInstallments = 0;
+        for (InstallmentModel installment : installments) {
+            if (installment.getInstallmentStatus() == 1) {
+                totalAmountPaid += (installment.getInstallmentAmount() + installment.getInstallmentOverduePenalty());
+                paidInstallments++;
+            }
+        }
+        // Update the total amount paid and paid installments
+        student.setTotalAmountPaid(totalAmountPaid);
+        student.setInstallmentsPaid(paidInstallments);
+
+        // Calculate the total amount to pay
+        int totalAmountToPay = 0;
+        for (InstallmentModel installment : installments) {
+            totalAmountToPay += (installment.getInstallmentAmount() + installment.getInstallmentOverduePenalty());
+        }
+        // Update the total amount to pay
+        student.setTotalAmountToPay(totalAmountToPay);
+
+        // Update the last payment date
+        updateLastPaymentDate(studentRUT);
+
+        // Update overdue installments number
+        List<InstallmentModel> overdueInstallments = getOverdueInstallmentsByRUT(student.getRut());
+        if (overdueInstallments == null) {
+            student.setOverdueInstallments(0);
+        } else {
+            student.setOverdueInstallments(overdueInstallments.size());
+        }
+
+
+        // Update payment method (more efficient if it is done here)
+        if (student.getAgreedInstallments() == 1) {
+            student.setPaymentMethod("Cash");
+        } else {
+            student.setPaymentMethod("Installments");
+        }
+        // Update the student
+        restTemplate.postForObject("http://localhost:8080/students", student, StudentModel.class);
+    }
+
+    // Update student information
+    @Generated
+    public void updateStudentInfo(String studentRUT) {
+        updateStudentAcademicInfo(studentRUT);
+        checkMissingInstallments(studentRUT);
+        updateStudentEconomicInfo(studentRUT);
+
+        // Por Marci
+        System.out.println("holi, quiero pasajes para un crucero en el caribe");
     }
 
 }
