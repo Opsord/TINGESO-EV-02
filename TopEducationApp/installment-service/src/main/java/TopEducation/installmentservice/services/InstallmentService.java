@@ -16,6 +16,8 @@ public class InstallmentService {
     @Autowired
     private InstallmentRepository installmentRepository;
 
+    // CD methods
+
     // Save an installment
     public void saveInstallment(InstallmentEntity installment) {
         installmentRepository.save(installment);
@@ -31,6 +33,16 @@ public class InstallmentService {
     public void deleteAllInstallments() {
         installmentRepository.deleteAll();
     }
+
+    // Delete all installments by student RUT
+    public void deleteAllInstallmentsByRUT(String installmentRUT) {
+        List<InstallmentEntity> installments = findAllByInstallmentRUT(installmentRUT);
+        for (InstallmentEntity installment : installments) {
+            deleteInstallment(installment.getId());
+        }
+    }
+
+
 
     // Find by methods
 
@@ -58,6 +70,10 @@ public class InstallmentService {
     public List<InstallmentEntity> findAllOverdueInstallmentsByRUT(String installmentRUT) {
         return (installmentRepository.findAllOverdueInstallmentsByRUT(installmentRUT));
     }
+
+
+
+    // Update methods
 
     // Verify is an installment is overdue
     public void updateInstallmentOverdueStatus(InstallmentEntity installment) {

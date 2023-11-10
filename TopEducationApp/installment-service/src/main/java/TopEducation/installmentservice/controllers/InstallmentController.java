@@ -82,6 +82,17 @@ public class InstallmentController {
         }
     }
 
+    //Delete all installments by student RUT
+    @GetMapping("/deleteAllByRUT/{installmentRUT}")
+    public ResponseEntity<String> deleteAllInstallmentsByRUT(@PathVariable("installmentRUT") String installmentRUT) {
+        try {
+            installmentService.deleteAllInstallmentsByRUT(installmentRUT);
+            return ResponseEntity.ok("All installments deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error deleting installments");
+        }
+    }
+
     //Delete all installments
     @GetMapping("/deleteAll")
     public ResponseEntity<String> deleteAllInstallments() {

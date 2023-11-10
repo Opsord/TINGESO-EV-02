@@ -19,7 +19,7 @@ public class AdministrationOfficeController {
 
     @Autowired
     AdministrationOfficeService administrationOfficeService;
-
+/*
     // Get a student by RUT
     @GetMapping("/student/{studentRUT}")
     public ResponseEntity<StudentModel> findStudentByRUT(@PathVariable("studentRUT") String studentRUT) {
@@ -74,7 +74,7 @@ public class AdministrationOfficeController {
             return ResponseEntity.ok(installments);
         }
     }
-
+*/
     // Update a student
     @GetMapping("/update/{studentRUT}")
     public ResponseEntity<String> updateStudent(@PathVariable("studentRUT") String studentRUT) {
