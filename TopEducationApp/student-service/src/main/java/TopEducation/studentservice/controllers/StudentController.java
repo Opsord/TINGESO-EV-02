@@ -36,15 +36,6 @@ public class StudentController {
         }
     }
 
-    /*
-    // Update a student by RUT
-    @PutMapping("/update/byRUT/{studentRUT}")
-    public ResponseEntity<StudentEntity> updateStudentByRUT(@PathVariable("studentRUT") String studentRUT, @RequestBody StudentEntity updatedStudent) {
-        studentService.updateStudentByRUT(studentRUT, updatedStudent);
-        return ResponseEntity.ok(updatedStudent);
-    }
-    */
-
     // Get a student by RUT
     @GetMapping("/byRUT/{studentRUT}")
     public ResponseEntity<StudentEntity> getStudentByRUT(@PathVariable("studentRUT") String studentRUT) {
@@ -58,7 +49,6 @@ public class StudentController {
     // Save a student
     @PostMapping
     public ResponseEntity<StudentEntity> saveStudent(@RequestBody StudentEntity student) {
-        System.out.println(student);
         studentService.saveStudent(student);
         return ResponseEntity.ok(student);
     }

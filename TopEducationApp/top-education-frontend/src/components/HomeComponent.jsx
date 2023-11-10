@@ -5,9 +5,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Toolbar } from '@material-ui/core';
-import { AppBar } from '@material-ui/core';
 import { Button, CardActionArea, CardActions } from '@mui/material';
+import HeaderComponent from './HeaderComponent';
 
 // Css import
 import '../css/Home.css';
@@ -16,7 +15,6 @@ import '../css/Home.css';
 import FileImage from '../images/excel-database-512.png';
 import StudentIcon from '../images/graduated-icon.png';
 import ScoreIcon from '../images/exam-icon.png';
-import GraduationIcon from "../images/graduation-512.png";
 
 export function FileUploadCard() {
   return (
@@ -118,11 +116,7 @@ export default function Home() {
     <GlobalStyle />  
     <HomeStyle>
 
-      <AppBar position="relative">
-        <Toolbar>
-          <img src={GraduationIcon} width="50px" height="50px" />
-        </Toolbar>
-      </AppBar>
+      <HeaderComponent />
       
       <h1 className="Menu-text" > <b>Top Education Menu</b></h1>
 

@@ -36,7 +36,6 @@ public class AdministrationOfficeService {
 
     // Get a student by RUT
     public StudentModel findByRut(String rut) {
-        logger.info("Finding RUT: " + rut);
         ResponseEntity<StudentModel> response = restTemplate.exchange(
                 "http://localhost:8080/students/byRUT/" + rut,
                 HttpMethod.GET,
@@ -53,20 +52,17 @@ public class AdministrationOfficeService {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<StudentModel> request = new HttpEntity<>(newStudent, headers);
-        ResponseEntity<StudentModel> response2 = restTemplate.exchange(
+        ResponseEntity<StudentModel> response = restTemplate.exchange(
                 "http://localhost:8080/students",
                 HttpMethod.POST,
                 request,
                 new ParameterizedTypeReference<StudentModel>() {}
         );
-        return response2.getBody();
+        return response.getBody();
     }
-
-
 
     // Get all scores by RUT
     public List<ScoreModel> getScoresByRUT(String rut) {
-        logger.info("Finding scores for RUT: " + rut);
         ResponseEntity<List<ScoreModel>> response = restTemplate.exchange(
                 "http://localhost:8080/scores/byRUT/" + rut,
                 HttpMethod.GET,
@@ -79,7 +75,6 @@ public class AdministrationOfficeService {
 
     // Get all installments by RUT
     public List<InstallmentModel> getInstallmentsByRUT(String rut) {
-        logger.info("Finding installments for RUT: " + rut);
         ResponseEntity<List<InstallmentModel>> response = restTemplate.exchange(
                 "http://localhost:8080/installments/byRUT/" + rut,
                 HttpMethod.GET,
@@ -92,7 +87,6 @@ public class AdministrationOfficeService {
 
     // Get all paid installments by RUT
     public List<InstallmentModel> getPaidInstallmentsByRUT(String rut) {
-        logger.info("Finding paid installments for RUT: " + rut);
         ResponseEntity<List<InstallmentModel>> response = restTemplate.exchange(
                 "http://localhost:8080/installments/byRUT/paid/" + rut,
                 HttpMethod.GET,
@@ -105,7 +99,6 @@ public class AdministrationOfficeService {
 
     // Get all overdue installments by RUT
     public List<InstallmentModel> getOverdueInstallmentsByRUT(String rut) {
-        logger.info("Finding overdue installments for RUT: " + rut);
         ResponseEntity<List<InstallmentModel>> response = restTemplate.exchange(
                 "http://localhost:8080/installments/byRUT/overdue/" + rut,
                 HttpMethod.GET,
@@ -120,7 +113,6 @@ public class AdministrationOfficeService {
 
     // Update student academic information (average score and exams taken) by RUT
     public StudentModel updateStudentAcademicInfo(StudentModel student) {
-        logger.info("Updating student average score for RUT: " + student.getRut());
         // Getting the scores
         List<ScoreModel> scores = getScoresByRUT(student.getRut());
         // Calculating the average score
@@ -360,17 +352,16 @@ public class AdministrationOfficeService {
     public StudentModel updateStudentInfo(String studentRUT) {
         // Get the student
         StudentModel student = findByRut(studentRUT);
-        System.out.println(student);
-
+        // Update the academic info
         student = updateStudentAcademicInfo(student);
-        System.out.println(student);
         logger.info("Academic info updated for RUT: " + studentRUT);
+        // Check for missing installments
         checkMissingInstallments(studentRUT);
         logger.info("Missing installments checked for RUT: " + studentRUT);
+        // Update the economic info
         student = updateStudentEconomicInfo(student);
-        System.out.println(student);
         logger.info("Economic info updated for RUT: " + studentRUT);
-        
+
         // Por Marci
         System.out.println("holi, quiero pasajes para un crucero en el caribe");
         return updateStudentValues(student);
