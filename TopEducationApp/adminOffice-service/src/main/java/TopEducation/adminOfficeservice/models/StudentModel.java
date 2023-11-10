@@ -38,7 +38,7 @@ public class StudentModel {
     private int examsTaken;
 
     // Average grade in tests
-    private int averageGrade;
+    private int averageScore;
 
     // Payment method
     private String paymentMethod;

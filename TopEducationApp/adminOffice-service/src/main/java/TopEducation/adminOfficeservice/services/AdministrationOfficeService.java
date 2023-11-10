@@ -6,9 +6,7 @@ import TopEducation.adminOfficeservice.models.StudentModel;
 import lombok.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -51,17 +49,19 @@ public class AdministrationOfficeService {
 
     // Update a student
     public StudentModel updateStudentValues(StudentModel newStudent) {
-        logger.info("Updating student with RUT: " + newStudent.getRut());
-        HttpEntity<StudentModel> requestEntity = new HttpEntity<>(newStudent);
-        ResponseEntity<StudentModel> response = restTemplate.exchange(
-                "http://localhost:8080/students/update/byRUT/" + newStudent.getRut(),
-                HttpMethod.PUT,
-                requestEntity,
-                new ParameterizedTypeReference<StudentModel>() {
-                }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<StudentModel> request = new HttpEntity<>(newStudent, headers);
+        ResponseEntity<StudentModel> response2 = restTemplate.exchange(
+                "http://localhost:8080/students",
+                HttpMethod.POST,
+                request,
+                new ParameterizedTypeReference<StudentModel>() {}
         );
-        return response.getBody();
+        return response2.getBody();
     }
+
 
 
     // Get all scores by RUT
@@ -119,12 +119,10 @@ public class AdministrationOfficeService {
 
 
     // Update student academic information (average score and exams taken) by RUT
-    public void updateStudentAcademicInfo(String studentRUT) {
-        logger.info("Updating student average score for RUT: " + studentRUT);
-        // Getting the student
-        StudentModel student = findByRut(studentRUT);
+    public StudentModel updateStudentAcademicInfo(StudentModel student) {
+        logger.info("Updating student average score for RUT: " + student.getRut());
         // Getting the scores
-        List<ScoreModel> scores = getScoresByRUT(studentRUT);
+        List<ScoreModel> scores = getScoresByRUT(student.getRut());
         // Calculating the average score
         int averageScore = 0;
         for (ScoreModel score : scores) {
@@ -134,12 +132,11 @@ public class AdministrationOfficeService {
         // Update the student´s exams taken
         student.setExamsTaken(scores.size());
         // Updating the student average score
-        student.setAverageGrade(averageScore);
+        student.setAverageScore(averageScore);
         // Saving the student
-        logger.info(scores.size() + " scores found for RUT: " + studentRUT);
+        logger.info(scores.size() + " scores found for RUT: " + student.getRut());
         logger.info("Average score calculated: " + averageScore);
-        // Update the student
-        updateStudentValues(student);
+        return student;
     }
 
 
@@ -202,7 +199,7 @@ public class AdministrationOfficeService {
     // Calculate the discount depending on the average score
     public double calculateAverageScoreDiscount(StudentModel student) {
         // Getting the average score of the student
-        int averageScore = student.getAverageGrade();
+        int averageScore = student.getAverageScore();
         // First range: 950 – 1000
         if (averageScore >= 950) {
             return 0.1;
@@ -240,14 +237,11 @@ public class AdministrationOfficeService {
     }
 
     // Update last payment date
-    public void updateLastPaymentDate(String studentRUT) {
-        // Get the student
-        StudentModel student = findByRut(studentRUT);
+    public void updateLastPaymentDate(StudentModel student) {
         // Get the paid installments of the student
         List<InstallmentModel> paidInstallments = getPaidInstallmentsByRUT(student.getRut());
         if (paidInstallments == null) {
             student.setLastPaymentDate(null);
-            restTemplate.postForObject("http://localhost:8080/students", student, StudentModel.class);
         } else {
             // Get the payment date of the closest installment to the current date
             LocalDate latestPaymentDate = LocalDate.of(LocalDate.now().getYear(), 1, 5);
@@ -258,7 +252,6 @@ public class AdministrationOfficeService {
             }
             // Update the last payment date
             student.setLastPaymentDate(latestPaymentDate);
-            restTemplate.postForObject("http://localhost:8080/students", student, StudentModel.class);
         }
     }
 
@@ -315,9 +308,7 @@ public class AdministrationOfficeService {
 
     // Update student economic information
     // (total amount paid, total amount to pay, installments paid, payment method) by RUT
-    public void updateStudentEconomicInfo(String studentRUT) {
-        // Get the student
-        StudentModel student = findByRut(studentRUT);
+    public StudentModel updateStudentEconomicInfo(StudentModel student) {
 
         // Get a list of the installments that match the RUT of the student
         List<InstallmentModel> installments = getInstallmentsByRUT(student.getRut());
@@ -344,7 +335,7 @@ public class AdministrationOfficeService {
         student.setTotalAmountToPay(totalAmountToPay);
 
         // Update the last payment date
-        updateLastPaymentDate(studentRUT);
+        updateLastPaymentDate(student);
 
         // Update overdue installments number
         List<InstallmentModel> overdueInstallments = getOverdueInstallmentsByRUT(student.getRut());
@@ -361,22 +352,28 @@ public class AdministrationOfficeService {
         } else {
             student.setPaymentMethod("Installments");
         }
-        // Update the student
-        updateStudentValues(student);
+        return student;
     }
 
     // Update student information
     @Generated
-    public void updateStudentInfo(String studentRUT) {
-        updateStudentAcademicInfo(studentRUT);
+    public StudentModel updateStudentInfo(String studentRUT) {
+        // Get the student
+        StudentModel student = findByRut(studentRUT);
+        System.out.println(student);
+
+        student = updateStudentAcademicInfo(student);
+        System.out.println(student);
         logger.info("Academic info updated for RUT: " + studentRUT);
         checkMissingInstallments(studentRUT);
         logger.info("Missing installments checked for RUT: " + studentRUT);
-        updateStudentEconomicInfo(studentRUT);
+        student = updateStudentEconomicInfo(student);
+        System.out.println(student);
         logger.info("Economic info updated for RUT: " + studentRUT);
-
+        
         // Por Marci
         System.out.println("holi, quiero pasajes para un crucero en el caribe");
+        return updateStudentValues(student);
     }
 
 }

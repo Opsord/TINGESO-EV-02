@@ -20,70 +20,68 @@ public class AdministrationOfficeController {
     @Autowired
     AdministrationOfficeService administrationOfficeService;
 
-    // Get a student by RUT
-    @GetMapping("/student/{studentRUT}")
-    public ResponseEntity<StudentModel> findStudentByRUT(@PathVariable("studentRUT") String studentRUT) {
-        StudentModel student = administrationOfficeService.findByRut(studentRUT);
-        if (student == null) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(student);
+    /*
+        // Get a student by RUT
+        @GetMapping("/student/{studentRUT}")
+        public ResponseEntity<StudentModel> findStudentByRUT(@PathVariable("studentRUT") String studentRUT) {
+            StudentModel student = administrationOfficeService.findByRut(studentRUT);
+            if (student == null) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEnti.ok(student);
+            }
         }
-    }
-/*
-    // Get all scores by RUT
-    @GetMapping("/scores/{studentRUT}")
-    public ResponseEntity<List<ScoreModel>> findScoresByRUT(@PathVariable("studentRUT") String studentRUT) {
-        List<ScoreModel> scores = administrationOfficeService.getScoresByRUT(studentRUT);
-        if (scores.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(scores);
+    /*
+        // Get all scores by RUT
+        @GetMapping("/scores/{studentRUT}")
+        public ResponseEntity<List<ScoreModel>> findScoresByRUT(@PathVariable("studentRUT") String studentRUT) {
+            List<ScoreModel> scores = administrationOfficeService.getScoresByRUT(studentRUT);
+            if (scores.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.ok(scores);
+            }
         }
-    }
 
-    // Get all installments for a student by RUT
-    @GetMapping("/installments/{studentRUT}")
-    public ResponseEntity<List<InstallmentModel>> findInstallmentsByRUT(@PathVariable("studentRUT") String studentRUT) {
-        List<InstallmentModel> installments = administrationOfficeService.getInstallmentsByRUT(studentRUT);
-        if (installments.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(installments);
+        // Get all installments for a student by RUT
+        @GetMapping("/installments/{studentRUT}")
+        public ResponseEntity<List<InstallmentModel>> findInstallmentsByRUT(@PathVariable("studentRUT") String studentRUT) {
+            List<InstallmentModel> installments = administrationOfficeService.getInstallmentsByRUT(studentRUT);
+            if (installments.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.ok(installments);
+            }
         }
-    }
 
-    // Get all paid installments for a student by RUT
-    @GetMapping("/installments/paid/{studentRUT}")
-    public ResponseEntity<List<InstallmentModel>> findPaidInstallmentsByRUT(@PathVariable("studentRUT") String studentRUT) {
-        List<InstallmentModel> installments = administrationOfficeService.getPaidInstallmentsByRUT(studentRUT);
-        if (installments.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(installments);
+        // Get all paid installments for a student by RUT
+        @GetMapping("/installments/paid/{studentRUT}")
+        public ResponseEntity<List<InstallmentModel>> findPaidInstallmentsByRUT(@PathVariable("studentRUT") String studentRUT) {
+            List<InstallmentModel> installments = administrationOfficeService.getPaidInstallmentsByRUT(studentRUT);
+            if (installments.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.ok(installments);
+            }
         }
-    }
 
-    // Get all overdue installments for a student by RUT
-    @GetMapping("/installments/overdue/{studentRUT}")
-    public ResponseEntity<List<InstallmentModel>> findOverdueInstallmentsByRUT(@PathVariable("studentRUT") String studentRUT) {
-        List<InstallmentModel> installments = administrationOfficeService.getOverdueInstallmentsByRUT(studentRUT);
-        if (installments.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(installments);
+        // Get all overdue installments for a student by RUT
+        @GetMapping("/installments/overdue/{studentRUT}")
+        public ResponseEntity<List<InstallmentModel>> findOverdueInstallmentsByRUT(@PathVariable("studentRUT") String studentRUT) {
+            List<InstallmentModel> installments = administrationOfficeService.getOverdueInstallmentsByRUT(studentRUT);
+            if (installments.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.ok(installments);
+            }
         }
-    }
-*/
-    // Send a put request to the student microservice to update a student by RUT
-    @GetMapping("/student/update/{studentRUT}")
+    */
+    // Update a student´s values
+    @GetMapping("/update/{studentRUT}")
     public ResponseEntity<StudentModel> updateStudentByRUT(@PathVariable("studentRUT") String studentRUT) {
-        StudentModel student = administrationOfficeService.updateStudentValues(studentRUT);
-        if (student == null) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(student);
-        }
+        StudentModel student = administrationOfficeService.findByRut(studentRUT);
+        student = administrationOfficeService.updateStudentInfo(student.getRut());
+        return ResponseEntity.ok(student);
     }
 
 }
