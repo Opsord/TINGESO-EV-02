@@ -34,7 +34,7 @@ class ListStudentComponent extends Component {
     }
 
     componentDidMount(){
-        StudentService.getStudents().then((res) => { // Fetch student data when the component mounts
+        StudentService.getAllStudents().then((res) => { // Fetch student data when the component mounts
             this.setState({ students: res.data });
         });
     }

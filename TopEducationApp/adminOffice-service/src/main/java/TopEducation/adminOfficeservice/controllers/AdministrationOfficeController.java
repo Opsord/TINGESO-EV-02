@@ -75,10 +75,15 @@ public class AdministrationOfficeController {
         }
     }
 */
-    // Update a student
-    @GetMapping("/update/{studentRUT}")
-    public ResponseEntity<String> updateStudent(@PathVariable("studentRUT") String studentRUT) {
-        administrationOfficeService.updateStudentInfo(studentRUT);
-        return ResponseEntity.ok("Student updated successfully");
+    // Send a put request to the student microservice to update a student by RUT
+    @GetMapping("/student/update/{studentRUT}")
+    public ResponseEntity<StudentModel> updateStudentByRUT(@PathVariable("studentRUT") String studentRUT) {
+        StudentModel student = administrationOfficeService.updateStudentValues(studentRUT);
+        if (student == null) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(student);
+        }
     }
+
 }

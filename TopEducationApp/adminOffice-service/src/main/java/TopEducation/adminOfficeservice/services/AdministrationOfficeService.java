@@ -6,6 +6,7 @@ import TopEducation.adminOfficeservice.models.StudentModel;
 import lombok.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -49,9 +50,17 @@ public class AdministrationOfficeService {
     }
 
     // Update a student
-    public void updateStudentValues(StudentModel student) {
-        logger.info("Updating student with RUT: " + student.getRut());
-        restTemplate.put(getStudentByRUTURL + student.getRut(), student, StudentModel.class);
+    public StudentModel updateStudentValues(StudentModel newStudent) {
+        logger.info("Updating student with RUT: " + newStudent.getRut());
+        HttpEntity<StudentModel> requestEntity = new HttpEntity<>(newStudent);
+        ResponseEntity<StudentModel> response = restTemplate.exchange(
+                "http://localhost:8080/students/update/byRUT/" + newStudent.getRut(),
+                HttpMethod.PUT,
+                requestEntity,
+                new ParameterizedTypeReference<StudentModel>() {
+                }
+        );
+        return response.getBody();
     }
 
 

@@ -37,15 +37,10 @@ public class StudentController {
     }
 
     // Update a student by RUT
-    @PutMapping("/byRUT/{studentRUT}")
+    @PutMapping("/update/byRUT/{studentRUT}")
     public ResponseEntity<StudentEntity> updateStudentByRUT(@PathVariable("studentRUT") String studentRUT, @RequestBody StudentEntity updatedStudent) {
-        if (studentService.findByRut(studentRUT) == null) {
-            return ResponseEntity.noContent().build();
-        } else {
-            studentService.updateStudentByRUT(studentRUT, updatedStudent);
-            StudentEntity student = studentService.findByRut(studentRUT);
-            return ResponseEntity.ok(student);
-        }
+        studentService.updateStudentByRUT(studentRUT, updatedStudent);
+        return ResponseEntity.ok(updatedStudent);
     }
 
 
