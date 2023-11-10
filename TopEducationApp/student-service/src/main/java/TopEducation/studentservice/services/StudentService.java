@@ -21,6 +21,21 @@ public class StudentService {
         studentRepository.save(student);
     }
 
+    // Update a student by RUT
+    public void updateStudentByRUT(String studentRUT, StudentEntity updatedStudent) {
+        StudentEntity student = findByRut(studentRUT);
+        // Update academic info
+        student.setAverageScore(updatedStudent.getAverageScore());
+        student.setExamsTaken(updatedStudent.getExamsTaken());
+        // Update economic info
+        student.setInstallmentsPaid(updatedStudent.getInstallmentsPaid());
+        student.setLastPaymentDate(updatedStudent.getLastPaymentDate());
+        student.setTotalAmountPaid(updatedStudent.getTotalAmountPaid());
+        student.setOverdueInstallments(updatedStudent.getOverdueInstallments());
+        // Save the updated student
+        saveStudent(student);
+    }
+
     // Get all the students
     @Generated
     public List<StudentEntity> getAllStudents() {

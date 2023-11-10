@@ -1,13 +1,7 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // Home component
 import HomeComponent from './components/HomeComponent';
-// File upload component
-import FileUploadComponent from './components/FileUploadComponent';
-// Score components
-import ScoreDetailsComponent from './components/ScoreDetailsComponent';
-import ScoreListComponent from './components/ScoreListComponent';
-import CreateScoreComponent from './components/CreateScoreComponent';
 // Student components
 import StudentListComponent from './components/StudentListComponent';
 import StudentDetailsComponent from './components/StudentDetailsComponent';
@@ -15,34 +9,28 @@ import CreateStudentComponent from './components/CreateStudentComponent';
 
 function App() {
     return (
-        <div className="App">
-            <BrowserRouter>
+        <div>
+            <Router>
                 <Routes>
+                    {/* Home page */}
                     <Route path="/" element={<HomeComponent />} />
-                    <Route path="/files" element={<FileUploadComponent />} />
+                    {/* Student list */}
                     <Route
                         path="/students"
                         element={<StudentListComponent />}
                     />
+                    {/* Student details */}
                     <Route
                         path="/students/:id"
                         element={<StudentDetailsComponent />}
                     />
+                    {/* Create student */}
                     <Route
-                        path="/students/create"
+                        path="/create-student"
                         element={<CreateStudentComponent />}
                     />
-                    <Route path="/scores" element={<ScoreListComponent />} />
-                    <Route
-                        path="/scores/:id"
-                        element={<ScoreDetailsComponent />}
-                    />
-                    <Route
-                        path="/scores/create"
-                        element={<CreateScoreComponent />}
-                    />
                 </Routes>
-            </BrowserRouter>
+            </Router>
         </div>
     );
 }

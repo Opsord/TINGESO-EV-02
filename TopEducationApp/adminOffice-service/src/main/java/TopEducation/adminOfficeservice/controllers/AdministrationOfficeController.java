@@ -19,7 +19,7 @@ public class AdministrationOfficeController {
 
     @Autowired
     AdministrationOfficeService administrationOfficeService;
-/*
+
     // Get a student by RUT
     @GetMapping("/student/{studentRUT}")
     public ResponseEntity<StudentModel> findStudentByRUT(@PathVariable("studentRUT") String studentRUT) {
@@ -30,7 +30,7 @@ public class AdministrationOfficeController {
             return ResponseEntity.ok(student);
         }
     }
-
+/*
     // Get all scores by RUT
     @GetMapping("/scores/{studentRUT}")
     public ResponseEntity<List<ScoreModel>> findScoresByRUT(@PathVariable("studentRUT") String studentRUT) {

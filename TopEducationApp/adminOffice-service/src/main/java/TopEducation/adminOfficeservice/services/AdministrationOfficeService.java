@@ -24,6 +24,14 @@ public class AdministrationOfficeService {
     RestTemplate restTemplate;
 
 
+    // Links
+
+    // Get all students
+    String getAllStudentsURL = "http://localhost:8080/students";
+
+    // Get a student by RUT
+    String getStudentByRUTURL = "http://localhost:8080/students/byRUT/";
+
 
     // Communication with other microservices
 
@@ -39,6 +47,13 @@ public class AdministrationOfficeService {
         );
         return response.getBody();
     }
+
+    // Update a student
+    public void updateStudentValues(StudentModel student) {
+        logger.info("Updating student with RUT: " + student.getRut());
+        restTemplate.put(getStudentByRUTURL + student.getRut(), student, StudentModel.class);
+    }
+
 
     // Get all scores by RUT
     public List<ScoreModel> getScoresByRUT(String rut) {
@@ -112,7 +127,10 @@ public class AdministrationOfficeService {
         // Updating the student average score
         student.setAverageGrade(averageScore);
         // Saving the student
-        restTemplate.postForObject("http://localhost:8080/students", student, StudentModel.class);
+        logger.info(scores.size() + " scores found for RUT: " + studentRUT);
+        logger.info("Average score calculated: " + averageScore);
+        // Update the student
+        updateStudentValues(student);
     }
 
 
@@ -242,7 +260,7 @@ public class AdministrationOfficeService {
         // Get the number of installments agreed by the student
         int agreedInstallments = student.getAgreedInstallments();
         // Get a list of the installments that match the RUT of the student
-        List<InstallmentModel> installments = getInstallmentsByRUT(student.getRut());
+        List<InstallmentModel> installments = getInstallmentsByRUT(studentRUT);
         // Found installments
         int foundInstallments = 0;
         if (installments == null) {
@@ -335,15 +353,18 @@ public class AdministrationOfficeService {
             student.setPaymentMethod("Installments");
         }
         // Update the student
-        restTemplate.postForObject("http://localhost:8080/students", student, StudentModel.class);
+        updateStudentValues(student);
     }
 
     // Update student information
     @Generated
     public void updateStudentInfo(String studentRUT) {
         updateStudentAcademicInfo(studentRUT);
+        logger.info("Academic info updated for RUT: " + studentRUT);
         checkMissingInstallments(studentRUT);
+        logger.info("Missing installments checked for RUT: " + studentRUT);
         updateStudentEconomicInfo(studentRUT);
+        logger.info("Economic info updated for RUT: " + studentRUT);
 
         // Por Marci
         System.out.println("holi, quiero pasajes para un crucero en el caribe");
