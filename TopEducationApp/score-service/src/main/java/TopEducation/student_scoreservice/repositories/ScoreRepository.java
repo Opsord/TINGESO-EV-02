@@ -14,6 +14,10 @@ public interface ScoreRepository extends CrudRepository<ScoreEntity, Long> {
     // Custom query's here
 
     // Custom query to find all scores for a given student
-    @Query("SELECT e FROM ScoreEntity e WHERE e.scoreRUT = :gradeRUT")
-    List<ScoreEntity> findAllScoresByStudentRUT(@Param("gradeRUT") String gradeRUT);
+    @Query("SELECT e FROM ScoreEntity e WHERE e.scoreRUT = :scoreRUT")
+    List<ScoreEntity> findAllScoresByStudentRUT(@Param("scoreRUT") String scoreRUT);
+
+    // Custom query to delete a score by student RUT
+    @Query("DELETE FROM ScoreEntity e WHERE e.scoreRUT = :scoreRUT")
+    void deleteByRut(@Param("scoreRUT") String scoreRUT);
 }

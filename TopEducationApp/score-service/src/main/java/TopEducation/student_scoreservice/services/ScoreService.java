@@ -20,9 +20,9 @@ public class ScoreService {
         scoreRepository.save(studentGrade);
     }
 
-    // Delete a student grade
-    public void deleteGrade(Long id) {
-        scoreRepository.deleteById(id);
+    // Delete a student score by rut
+    public void deleteScore(String rut) {
+        scoreRepository.deleteByRut(rut);
     }
 
     // Delete all student scores
@@ -32,12 +32,12 @@ public class ScoreService {
     }
 
     // Delete all student scores by student RUT
-    public void deleteAllScoresByStudentRUT(String gradeRUT) {
+    public void deleteAllScoresByStudentRUT(String scoreRUT) {
         // Get all the scores by student RUT
-        List<ScoreEntity> scores = findAllScoresByStudentRUT(gradeRUT);
+        List<ScoreEntity> scores = findAllScoresByStudentRUT(scoreRUT);
         // Delete all the scores
         for (ScoreEntity score : scores) {
-            deleteGrade(score.getId());
+            deleteScore(score.getScoreRUT());
         }
     }
 

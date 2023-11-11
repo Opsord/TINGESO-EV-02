@@ -42,9 +42,10 @@ public class StudentService {
         return (List<StudentEntity>) studentRepository.findAll();
     }
 
-    // Delete a student
-    public void deleteStudent(Long id) {
-        studentRepository.deleteById(id);
+    // Delete a student by RUT
+    public void deleteStudentByRUT(String studentRUT) {
+        StudentEntity student = findByRut(studentRUT);
+        studentRepository.delete(student);
     }
 
     // Delete all students
@@ -54,11 +55,6 @@ public class StudentService {
     }
 
     // Find by methods
-
-    // Find by ID
-    public StudentEntity findById(Long id) {
-        return studentRepository.findById(id).orElse(null);
-    }
 
     // Find by RUT
     public StudentEntity findByRut(String rut) {

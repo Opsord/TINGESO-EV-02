@@ -26,16 +26,6 @@ public class StudentController {
         }
     }
 
-    // Get a student by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<StudentEntity> getStudentById(@PathVariable("id") Long id) {
-        if (studentService.findById(id) == null) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(studentService.findById(id));
-        }
-    }
-
     // Get a student by RUT
     @GetMapping("/byRUT/{studentRUT}")
     public ResponseEntity<StudentEntity> getStudentByRUT(@PathVariable("studentRUT") String studentRUT) {
@@ -53,10 +43,10 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    // Delete a student by id
-    @GetMapping("/delete/{id}")
-    public ResponseEntity<String> deleteStudent(@PathVariable("id") Long id) {
-        studentService.deleteStudent(id);
+    // Delete a student by RUT
+    @DeleteMapping("/delete/{rut}")
+    public ResponseEntity<String> deleteStudentByRUT(@PathVariable("rut") String rut) {
+        studentService.deleteStudentByRUT(rut);
         return ResponseEntity.ok("Student deleted successfully");
     }
 

@@ -11,4 +11,8 @@ public interface StudentRepository extends CrudRepository<StudentEntity, Long> {
     // Custom query to find a student by RUT
     @Query("SELECT e FROM StudentEntity e WHERE e.rut = :rut")
     StudentEntity findByRut(@Param("rut") String rut);
+
+    // Custom query to delete a student by RUT
+    @Query("DELETE FROM StudentEntity e WHERE e.rut = :rut")
+    void deleteByRut(@Param("rut") String rut);
 }

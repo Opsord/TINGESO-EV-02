@@ -6,6 +6,7 @@ import HomeComponent from './components/HomeComponent';
 import StudentListComponent from './components/StudentListComponent';
 import StudentDetailsComponent from './components/StudentDetailsComponent';
 import CreateStudentComponent from './components/CreateStudentComponent';
+import StudentListFunComponent from './components/StudentListFunComponent';
 
 function App() {
     return (
@@ -21,13 +22,17 @@ function App() {
                     />
                     {/* Student details */}
                     <Route
-                        path="/students/:id"
+                        path="/students/:rut"
                         element={<StudentDetailsComponent />}
                     />
                     {/* Create student */}
                     <Route
-                        path="/create-student"
+                        path="/create"
                         element={<CreateStudentComponent />}
+                    />
+                    <Route
+                        path="/studentsFun"
+                        element={<StudentListFunComponent />}
                     />
                 </Routes>
             </Router>

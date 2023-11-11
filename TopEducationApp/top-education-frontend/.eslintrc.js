@@ -30,5 +30,10 @@ module.exports = {
         sourceType: 'module',
     },
     plugins: ['react', 'react-hooks', 'jsx-a11y', 'import', 'prettier'],
-    rules: {},
+    rules: {
+        'no-unused-vars': [
+            'warn',
+            { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
+        ],
+    },
 };

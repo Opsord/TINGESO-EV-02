@@ -36,10 +36,10 @@ public class ScoreController {
         }
     }
 
-    // Delete a student score by id
-    @GetMapping("/delete/{id}")
-    public ResponseEntity<String> deleteScore(@PathVariable("id") Long id) {
-        scoreService.deleteGrade(id);
+    // Delete a student score by RUT
+    @GetMapping("/delete/{rut}")
+    public ResponseEntity<String> deleteScoreByRUT(@PathVariable("rut") String rut) {
+        scoreService.deleteScore(rut);
         return ResponseEntity.ok("Score deleted successfully");
     }
 

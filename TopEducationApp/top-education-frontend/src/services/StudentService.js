@@ -7,10 +7,6 @@ class StudentService {
         return axios.get(STUDENT_API_URL);
     }
 
-    getStudentById(studentId) {
-        return axios.get(STUDENT_API_URL + '/' + studentId);
-    }
-
     getStudentByRut(studentRut) {
         return axios.get(STUDENT_API_URL + '/byRUT/' + studentRut);
     }
@@ -19,8 +15,8 @@ class StudentService {
         return axios.post(STUDENT_API_URL, student);
     }
 
-    deleteStudent(studentId) {
-        return axios.delete(STUDENT_API_URL + '/delete/' + studentId);
+    deleteStudent(studentRut) {
+        return axios.delete(STUDENT_API_URL + '/delete/' + studentRut);
     }
 
     deleteAllStudents() {

@@ -16,12 +16,11 @@ public class AdministrationOfficeController {
     @Autowired
     AdministrationOfficeService administrationOfficeService;
 
-    // Update a student´s values
+    // Update a student by RUT
     @GetMapping("/update/{studentRUT}")
     public ResponseEntity<StudentModel> updateStudentByRUT(@PathVariable("studentRUT") String studentRUT) {
         StudentModel student = administrationOfficeService.findByRut(studentRUT);
         student = administrationOfficeService.updateStudentInfo(student.getRut());
         return ResponseEntity.ok(student);
     }
-
 }

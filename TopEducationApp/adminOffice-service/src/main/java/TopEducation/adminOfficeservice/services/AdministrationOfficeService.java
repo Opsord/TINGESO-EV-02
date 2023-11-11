@@ -347,7 +347,7 @@ public class AdministrationOfficeService {
         return student;
     }
 
-    // Update student information
+    // Update student information by RUT
     @Generated
     public StudentModel updateStudentInfo(String studentRUT) {
         // Get the student
@@ -364,7 +364,7 @@ public class AdministrationOfficeService {
 
         // Por Marci
         System.out.println("holi, quiero pasajes para un crucero en el caribe");
+
         return updateStudentValues(student);
     }
-
 }
