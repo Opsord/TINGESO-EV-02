@@ -8,9 +8,6 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import HeaderComponent from './HeaderComponent';
 
-// Css import
-import '../css/Home.css';
-
 // Images import
 import FileImage from '../images/excel-database-512.png';
 import StudentIcon from '../images/graduated-icon.png';
@@ -65,14 +62,16 @@ export function StudentCard() {
           </Typography>
         </CardContent>
       </CardActionArea>
+
       <CardActions sx={{ display:"flex", justifyContent:"center" }}>
         <Button size="small" color="primary" href='/students'>
           View Students
         </Button>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" href= "/create">
           Add Student
         </Button>
       </CardActions>
+
     </Card>
   );
 }

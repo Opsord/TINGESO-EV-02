@@ -7,6 +7,7 @@ import '../css/TableFormat.css';
 // Services import
 import StudentService from '../services/StudentService'; // Import the service that provides student data
 import AdminOfficeService from '../services/AdminOfficeService';
+import InstallmentService from '../services/InstallmentService';
 
 export default function StudentListFunComponent() {
     // Initialize the state
@@ -38,13 +39,19 @@ export default function StudentListFunComponent() {
         });
     };
 
-    // Delete a student
+    // Delete a student and its installments
     const deleteStudent = (studentRUT) => {
-        StudentService.deleteStudent(studentRUT).then(() => {
-            // After deleting, refresh the table
-            refreshTable();
-        });
-    };
+        // Delete all the installments of the student
+        InstallmentService.deleteInstallmentsByRUT(studentRUT).then(
+            () => {
+                // Delete the student
+                StudentService.deleteStudent(studentRUT).then(() => {
+                    // After deleting, refresh the table
+                    refreshTable();
+                });
+            }
+        );
+    }
 
     // Refresh the table
     const refreshTable = () => {

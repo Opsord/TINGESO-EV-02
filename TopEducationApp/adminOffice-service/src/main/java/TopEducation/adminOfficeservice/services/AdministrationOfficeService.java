@@ -112,9 +112,22 @@ public class AdministrationOfficeService {
 
 
     // Update student academic information (average score and exams taken) by RUT
-    public StudentModel updateStudentAcademicInfo(StudentModel student) {
+    public StudentModel updateStudentInfoPart1(StudentModel student) {
+        // Verify max installments
+
+        // Get the max installments
+        int maxInstallments = calculateMaxInstallments(student);
+        // Verify if the max installments are less than the agreed installments
+        if (maxInstallments < student.getAgreedInstallments()) {
+            student.setAgreedInstallments(maxInstallments);
+        }
+
         // Getting the scores
         List<ScoreModel> scores = getScoresByRUT(student.getRut());
+        if (scores == null) {
+            logger.info("No scores found for RUT: " + student.getRut());
+            return student;
+        }
         // Calculating the average score
         int averageScore = 0;
         for (ScoreModel score : scores) {
@@ -131,6 +144,21 @@ public class AdministrationOfficeService {
         return student;
     }
 
+    // Calculate the maximum number of installments
+    public int calculateMaxInstallments(StudentModel student) {
+        // Getting the school type of the student
+        int schoolType = student.getSchoolType();
+        int maxInstallments = 0;
+        // School type: 0 -> Municipal, 1 -> Subsidized, 2 -> Private
+        if (schoolType == 0) {
+            maxInstallments = 10;
+        } else if (schoolType == 1) {
+            maxInstallments = 7;
+        } else if (schoolType == 2) {
+            maxInstallments = 4;
+        }
+        return maxInstallments;
+    }
 
 
 
@@ -248,13 +276,11 @@ public class AdministrationOfficeService {
     }
 
     // Check if a student has missing installments and generate the missing ones
-    public void checkMissingInstallments(String studentRUT) {
-        // Get the student
-        StudentModel student = findByRut(studentRUT);
+    public void checkMissingInstallments(StudentModel student) {
         // Get the number of installments agreed by the student
         int agreedInstallments = student.getAgreedInstallments();
         // Get a list of the installments that match the RUT of the student
-        List<InstallmentModel> installments = getInstallmentsByRUT(studentRUT);
+        List<InstallmentModel> installments = getInstallmentsByRUT(student.getRut());
         // Found installments
         int foundInstallments = 0;
         if (installments == null) {
@@ -354,10 +380,10 @@ public class AdministrationOfficeService {
         // Get the student
         StudentModel student = findByRut(studentRUT);
         // Update the academic info
-        student = updateStudentAcademicInfo(student);
+        student = updateStudentInfoPart1(student);
         logger.info("Academic info updated for RUT: " + studentRUT);
         // Check for missing installments
-        checkMissingInstallments(studentRUT);
+        checkMissingInstallments(student);
         logger.info("Missing installments checked for RUT: " + studentRUT);
         // Update the economic info
         student = updateStudentEconomicInfo(student);

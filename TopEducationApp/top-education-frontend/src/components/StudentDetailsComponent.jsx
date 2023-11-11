@@ -28,10 +28,17 @@ export default function Details() {
         });
     };
 
-    // Refresh the student details
+    // Refresh the student details and tables
     const refreshStudentDetails = () => {
         StudentService.getStudentByRut(rut).then((res) => {
             setStudent(res.data);
+        }
+        );
+        InstallmentService.getInstallmentsByRUT(rut).then((res) => {
+            setInstallments(res.data);
+        });
+        ScoreService.getScoresByRUT(rut).then((res) => {
+            setScores(res.data);
         });
     };
 
@@ -218,6 +225,7 @@ export default function Details() {
                     <b>Scores</b>
                 </h3>
                 <div className="student-scores-box">
+                {scores.length > 0 ? (
                         <table className="content-table">
                             <thead>
                                 <tr>
@@ -234,11 +242,15 @@ export default function Details() {
                                 ))}
                             </tbody>
                         </table>
+                        ) : (
+                            <p>No scores registed</p>
+                        )}
                 </div>
 
                 <h3 className="menu-text">
                     <b>Installments</b>
                 </h3>
+                {installments.length > 0 ? (
                 <table className="content-table">
                     <thead>
                         <tr>
@@ -274,6 +286,9 @@ export default function Details() {
                         ))}
                     </tbody>
                 </table>
+                ) : (
+                    <p>No installments available</p>
+                )}
             </HomeStyle>
         </div>
     );

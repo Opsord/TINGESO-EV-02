@@ -83,7 +83,7 @@ public class InstallmentController {
     }
 
     //Delete all installments by student RUT
-    @GetMapping("/deleteAllByRUT/{installmentRUT}")
+    @DeleteMapping("/deleteAllByRUT/{installmentRUT}")
     public ResponseEntity<String> deleteAllInstallmentsByRUT(@PathVariable("installmentRUT") String installmentRUT) {
         try {
             installmentService.deleteAllInstallmentsByRUT(installmentRUT);
