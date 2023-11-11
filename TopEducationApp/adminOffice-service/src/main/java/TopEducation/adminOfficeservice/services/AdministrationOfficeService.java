@@ -323,6 +323,7 @@ public class AdministrationOfficeService {
         for (InstallmentModel installment : installments) {
             totalAmountToPay += (installment.getInstallmentAmount() + installment.getInstallmentOverduePenalty());
         }
+        totalAmountToPay = totalAmountToPay - totalAmountPaid;
         // Update the total amount to pay
         student.setTotalAmountToPay(totalAmountToPay);
 

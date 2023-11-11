@@ -30,4 +30,4 @@ public class ScoreEntity {
     // Date of the exam
     private LocalDate examDate;
 
-}
+}   

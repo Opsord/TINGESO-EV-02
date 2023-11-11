@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 // Components import
 import HeaderComponent from './HeaderComponent';
 // CSS import
-import '../css/StudentListFun.css';
+import '../css/TableFormat.css';
 // Services import
 import StudentService from '../services/StudentService'; // Import the service that provides student data
 import AdminOfficeService from '../services/AdminOfficeService';

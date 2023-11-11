@@ -112,7 +112,7 @@ public class InstallmentController {
     }
 
     // Mark an installment as paid
-    @GetMapping("/pay/{id}")
+    @PutMapping("/pay/{id}")
     public ResponseEntity<String> payInstallment(@PathVariable("id") Long id) {
         try {
             installmentService.markInstallmentAsPAid(id);

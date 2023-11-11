@@ -14,7 +14,6 @@ import '../css/Home.css';
 // Images import
 import FileImage from '../images/excel-database-512.png';
 import StudentIcon from '../images/graduated-icon.png';
-import ScoreIcon from '../images/exam-icon.png';
 
 export function FileUploadCard() {
   return (
@@ -78,37 +77,6 @@ export function StudentCard() {
   );
 }
 
-export function ScoreCard() {
-  return (
-    <Card sx={{ height:"450px", width:"300px", margin:"15px" }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          image={ScoreIcon}
-          alt="score card"
-          sx={{ objectFit: 'cover' }}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Scores
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            View, add, or delete scores.
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions sx={{ display:"flex", justifyContent:"center", }}>
-        <Button size="small" color="primary">
-          View Scores
-        </Button>
-        <Button size="small" color="primary">
-          Add Score
-        </Button>
-      </CardActions>
-    </Card>
-  );
-}
-
 export default function Home() {
 
   return (
@@ -118,12 +86,11 @@ export default function Home() {
 
       <HeaderComponent />
       
-      <h1 className="Menu-text" > <b>Top Education Menu</b></h1>
+      <h1 className="menu-text" > <b>Top Education Menu</b></h1>
 
       <div className = "Option-cards">
       <FileUploadCard />
       <StudentCard />
-      <ScoreCard />
       </div>
 
     </HomeStyle>
@@ -134,7 +101,7 @@ export default function Home() {
 // Create GlobalStyle
 const GlobalStyle = createGlobalStyle`
   body {
-    background-color: #262626;
+    background-color: #f5f5f5;
   }
 `;
 // Create HomeStyle
@@ -146,6 +113,13 @@ const HomeStyle = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
+  margin: 20px;
+}
+
+.menu-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 20px;
 }
 `;

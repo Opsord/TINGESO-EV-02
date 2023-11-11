@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // Home component
 import HomeComponent from './components/HomeComponent';
 // Student components
-import StudentListComponent from './components/StudentListComponent';
 import StudentDetailsComponent from './components/StudentDetailsComponent';
 import CreateStudentComponent from './components/CreateStudentComponent';
 import StudentListFunComponent from './components/StudentListFunComponent';
@@ -18,7 +17,7 @@ function App() {
                     {/* Student list */}
                     <Route
                         path="/students"
-                        element={<StudentListComponent />}
+                        element={<StudentListFunComponent />}
                     />
                     {/* Student details */}
                     <Route
@@ -29,10 +28,6 @@ function App() {
                     <Route
                         path="/create"
                         element={<CreateStudentComponent />}
-                    />
-                    <Route
-                        path="/studentsFun"
-                        element={<StudentListFunComponent />}
                     />
                 </Routes>
             </Router>
