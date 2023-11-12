@@ -32,10 +32,10 @@ export function FileUploadCard() {
         </CardContent>
       </CardActionArea>
       <CardActions sx={{ display:"flex", justifyContent:"center", flexGrow: 1, alignItems: 'flex-end' }}>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" href= "/uploadStudents">
           Upload Students
         </Button>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" href= "/uploadScores">
           Upload Scores
         </Button>
       </CardActions>
@@ -64,7 +64,7 @@ export function StudentCard() {
       </CardActionArea>
 
       <CardActions sx={{ display:"flex", justifyContent:"center" }}>
-        <Button size="small" color="primary" href='/students'>
+        <Button size="small" color="primary" href= '/students'>
           View Students
         </Button>
         <Button size="small" color="primary" href= "/create">

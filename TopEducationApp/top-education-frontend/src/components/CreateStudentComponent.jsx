@@ -114,13 +114,16 @@ export default function CreateStudent() {
                 <div className="container-create">
                     <Form>
                         <Form.Group
-                            className="mb-3"
+                            className="student-atribute"
                             controlId="rut"
                             value={input.rut}
                             onChange={changeRUTHandler}
                         >
-                            <Form.Label for="rut">Código:</Form.Label>
+                            <Form.Label className="atribute-id" for="rut">
+                                Código:
+                            </Form.Label>
                             <Form.Control
+                                className="atribute-input"
                                 type="text"
                                 name="rut"
                                 placeholder="66666666-K"
@@ -128,13 +131,16 @@ export default function CreateStudent() {
                         </Form.Group>
 
                         <Form.Group
-                            className="mb-3"
+                            className="student-atribute"
                             controlId="firstName"
                             value={input.firstName}
                             onChange={changeFirstNameHandler}
                         >
-                            <Form.Label for="firstName">Nombre:</Form.Label>
+                            <Form.Label className="atribute-id" for="firstName">
+                                Nombre:
+                            </Form.Label>
                             <Form.Control
+                                className="atribute-input"
                                 type="text"
                                 name="firstName"
                                 placeholder="Juan"
@@ -142,13 +148,16 @@ export default function CreateStudent() {
                         </Form.Group>
 
                         <Form.Group
-                            className="mb-3"
+                            className="student-atribute"
                             controlId="lastName"
                             value={input.lastName}
                             onChange={changeLastNameHandler}
                         >
-                            <Form.Label for="lastName">Apellido:</Form.Label>
+                            <Form.Label className="atribute-id" for="lastName">
+                                Apellido:
+                            </Form.Label>
                             <Form.Control
+                                className="atribute-input"
                                 type="text"
                                 name="lastName"
                                 placeholder="Perez"
@@ -156,15 +165,16 @@ export default function CreateStudent() {
                         </Form.Group>
 
                         <Form.Group
-                            className="mb-3"
+                            className="student-atribute"
                             controlId="birthDate"
                             value={input.birthDate}
                             onChange={changeBirthDateHandler}
                         >
-                            <Form.Label for="birthDate">
+                            <Form.Label className="atribute-id" for="birthDate">
                                 Fecha de nacimiento:
                             </Form.Label>
                             <Form.Control
+                                className="atribute-input"
                                 type="date"
                                 name="birthDate"
                                 placeholder="01/01/2000"
@@ -172,31 +182,39 @@ export default function CreateStudent() {
                         </Form.Group>
 
                         <Form.Group
-                            className="mb-3"
+                            className="student-atribute"
                             controlId="schoolType"
                             value={input.schoolType}
                             onChange={changeSchoolTypeHandler}
                         >
-                            <Form.Label for="schoolType">
+                            <Form.Label
+                                className="atribute-id"
+                                for="schoolType"
+                            >
                                 Tipo de colegio:
                             </Form.Label>
                             <Form.Control
+                                className="atribute-input"
                                 type="text"
                                 name="schoolType"
-                                placeholder="0 -> Municipal, 1 -> Subsidized, 2 -> Private"
+                                placeholder="0→Mun||1→Sub||2→ Priv"
                             />
                         </Form.Group>
 
                         <Form.Group
-                            className="mb-3"
+                            className="student-atribute"
                             controlId="schoolName"
                             value={input.schoolName}
                             onChange={changeSchoolNameHandler}
                         >
-                            <Form.Label for="schoolName">
+                            <Form.Label
+                                className="atribute-id"
+                                for="schoolName"
+                            >
                                 Nombre del colegio:
                             </Form.Label>
                             <Form.Control
+                                className="atribute-input"
                                 type="text"
                                 name="schoolName"
                                 placeholder="Colegio de Prueba"
@@ -204,15 +222,19 @@ export default function CreateStudent() {
                         </Form.Group>
 
                         <Form.Group
-                            className="mb-3"
+                            className="student-atribute"
                             controlId="graduationYear"
                             value={input.graduationYear}
                             onChange={changeGraduationYearHandler}
                         >
-                            <Form.Label for="graduationYear">
+                            <Form.Label
+                                className="atribute-id"
+                                for="graduationYear"
+                            >
                                 Año de egreso:
                             </Form.Label>
                             <Form.Control
+                                className="atribute-input"
                                 type="text"
                                 name="graduationYear"
                                 placeholder="2018"
@@ -220,15 +242,19 @@ export default function CreateStudent() {
                         </Form.Group>
 
                         <Form.Group
-                            className="mb-3"
+                            className="student-atribute"
                             controlId="agreedInstallments"
                             value={input.agreedInstallments}
                             onChange={changeAgreedInstallmentsHandler}
                         >
-                            <Form.Label for="agreedInstallments">
+                            <Form.Label
+                                className="atribute-id"
+                                for="agreedInstallments"
+                            >
                                 Cantidad de cuotas:
                             </Form.Label>
                             <Form.Control
+                                className="atribute-input"
                                 type="text"
                                 name="agreedInstallments"
                                 placeholder="1"
@@ -252,7 +278,6 @@ const GlobalStyle = createGlobalStyle`
 `;
 // Create HomeStyle
 const HomeStyle = styled.div`
-
     .container-create {
         display: flex;
         flex-direction: column;
@@ -261,20 +286,23 @@ const HomeStyle = styled.div`
         margin: 20px;
     }
 
-    .Form {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 20px;
+    .student-atribute {
+        padding-top: 20px;
+        margin: 15px;
+        height: 50px;
+        width: 500px;
+        border-radius: 5px;
+        border: 5px solid #bcbcbc;
     }
 
-    .Form.Group {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 20px;
+    .atribute-id {
+        margin: 10%;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .atribute-input {
+        font-size: 16px;
     }
 
     .menu-text {

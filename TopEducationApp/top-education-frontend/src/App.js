@@ -6,6 +6,8 @@ import HomeComponent from './components/HomeComponent';
 import StudentDetailsComponent from './components/StudentDetailsComponent';
 import CreateStudentComponent from './components/CreateStudentComponent';
 import StudentListFunComponent from './components/StudentListFunComponent';
+import StudentFileUpload from './components/StudentFileUploadComponent';
+import ScoreFileUpload from './components/ScoreFileUploadComponent';
 
 function App() {
     return (
@@ -29,6 +31,13 @@ function App() {
                         path="/create"
                         element={<CreateStudentComponent />}
                     />
+                    {/* Upload student file */}
+                    <Route
+                        path="/uploadStudents"
+                        element={<StudentFileUpload />}
+                    />
+                    {/* Upload score file */}
+                    <Route path="/uploadScores" element={<ScoreFileUpload />} />
                 </Routes>
             </Router>
         </div>
