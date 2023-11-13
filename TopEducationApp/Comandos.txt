@@ -1,0 +1,54 @@
+Docker:
+
+cd .\config-service\
+mvn clean install -DskipTests=True
+docker build -t opsord/tem-config-service .
+docker push opsord/tem-config-service
+cd ..
+
+cd .\eureka-service\
+mvn clean install -DskipTests=True
+docker build -t opsord/tem-eureka-service .
+docker push opsord/tem-eureka-service
+cd ..
+
+cd .\gateway-service\
+mvn clean install -DskipTests=True
+docker build -t opsord/tem-gateway-service .
+docker push opsord/tem-eureka-service
+cd ..
+
+cd .\installment-service\
+mvn clean install -DskipTests=True
+docker build -t opsord/tem-installment-service .
+docker push opsord/tem-installment-service
+cd ..
+
+cd .\score-service\
+mvn clean install -DskipTests=True
+docker build -t opsord/tem-score-service .
+docker push opsord/tem-score-service
+cd ..
+
+cd .\student-service\
+mvn clean install -DskipTests=True
+docker build -t opsord/tem-student-service .
+docker push opsord/tem-student-service
+cd ..
+
+cd .\filemanager-service\
+mvn clean install -DskipTests=True
+docker build -t opsord/tem-filemanager-service .
+docker push opsord/tem-filemanager-service
+cd ..
+
+cd .\adminoffice-service\
+mvn clean install -DskipTests=True
+docker build -t opsord/tem-adminoffice-service .
+docker push opsord/tem-adminoffice-service
+cd ..
+
+cd .\frontend-service\
+docker build -t opsord/tem-frontend-service .
+docker push opsord/tem-frontend-service
+cd ..
