@@ -81,6 +81,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>tem-student-service</finalName>
 	</build>
 
 </project>

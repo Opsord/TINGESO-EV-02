@@ -81,6 +81,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>tem-score-service</finalName>
 	</build>
 
 </project>
