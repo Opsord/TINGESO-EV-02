@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adminoffice-deployment
+  labels:
+    app: adminoffice-deployment
+spec:
+  selector:
+    matchLabels:
+      app: adminoffice-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: adminoffice-deployment
+    spec:
+      containers:
+        - name: tem-adminoffice-service
+          image: opsord/tem-adminoffice-service:latest
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-service:8081
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-service:8761
+            - name: eureka.instance.preferIpAddress
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adminoffice-service
+  labels:
+    app: adminoffice-service
+spec:
+  selector:
+    app: adminoffice-deployment
+  ports:
+    - protocol: TCP
+      port: 8086
+      targetPort: 8086
+  type: LoadBalancer

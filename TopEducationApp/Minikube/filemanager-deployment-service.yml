@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filemanager-deployment
+  labels:
+    app: filemanager-deployment
+spec:
+  selector:
+    matchLabels:
+      app: filemanager-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: filemanager-deployment
+    spec:
+      containers:
+        - name: tem-filemanager-service
+          image: opsord/tem-filemanager-service:latest
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-service:8081
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-service:8761
+            - name: eureka.instance.preferIpAddress
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: filemanager-service
+  labels:
+    app: filemanager-service
+spec:
+  selector:
+    app: filemanager-deployment
+  ports:
+    - protocol: TCP
+      port: 8085
+      targetPort: 8085
+  type: LoadBalancer

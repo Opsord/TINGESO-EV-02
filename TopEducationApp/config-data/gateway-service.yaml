@@ -36,11 +36,11 @@ spring:
           uri: lb://student-service
           predicates:
             - Path=/students/**
-        - id: file-manager-service
-          uri: lb://file-manager-service
+        - id: filemanager-service
+          uri: lb://filemanager-service
           predicates:
             - Path=/files/**
-        - id: adminOffice-service
-          uri: lb://adminOffice-service
+        - id: adminoffice-service
+          uri: lb://adminoffice-service
           predicates:
             - Path=/administrationOffice/**
