@@ -63,3 +63,7 @@ kadminOffice-service/src/main/java/TopEducation/adminOfficeservice/services/Admi
 cfilemanager-service/src/main/java/TopEducation/file_managerservice/services/FileManagerService.java,4\4\4420cbbc1eda7ec8858cb27cc763279514abfca7
 †
 Vstudent-service/src/main/java/TopEducation/studentservice/services/StudentService.java,0\0\00a99b0b73349ac34c238ab2018bdc9a238182e0
+V
+&Minikube/eureka-deployment-service.yml,8\c\8c0985f4bcfa57045f8ba255f22fcf9cb9fb9e50
+X
+(Minikube/frontend-deployment-service.yml,c\9\c9e95bc0aef0e201aa0869f37e51c5bb721d54dd

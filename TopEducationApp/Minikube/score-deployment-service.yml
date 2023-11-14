@@ -14,6 +14,10 @@ spec:
       labels:
         app: score-deployment
     spec:
+      initContainers:
+        - name: wait-for-gateway
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z gateway-service 8080; do echo waiting for Gateway; sleep 2; done;' ]
       containers:
         - name: tem-score-service
           image: opsord/tem-score-service:latest

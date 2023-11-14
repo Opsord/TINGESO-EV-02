@@ -14,6 +14,10 @@ spec:
       labels:
         app: eureka-deployment
     spec:
+      initContainers:
+        - name: wait-for-config
+          image: busybox
+          command: [ 'sh', '-c', 'until nslookup config-service; do echo waiting for config-service; sleep 2; done;' ]
       containers:
         - name: tem-eureka-service
           image: opsord/tem-eureka-service:latest

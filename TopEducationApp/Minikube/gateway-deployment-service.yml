@@ -14,6 +14,10 @@ spec:
       labels:
         app: gateway-deployment
     spec:
+      initContainers:
+        - name: wait-for-eureka
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z eureka-service 8761; do echo waiting for Eureka; sleep 2; done;' ]
       containers:
         - name: tem-gateway-service
           image: opsord/tem-gateway-service:latest
