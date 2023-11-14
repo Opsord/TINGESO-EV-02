@@ -308,7 +308,7 @@ public class AdministrationOfficeService {
                 installment.setInstallmentOverduePenalty(0);
 
                 // Save the installment
-                restTemplate.postForObject("http://localhost:8080/installments", installment, InstallmentModel.class);
+                restTemplate.postForObject("http://gateway-service:8080/installments", installment, InstallmentModel.class);
             }
         }
 
