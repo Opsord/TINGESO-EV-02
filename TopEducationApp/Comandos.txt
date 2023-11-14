@@ -89,3 +89,17 @@ kubectl apply -f filemanager-deployment-service.yml
 kubectl apply -f adminoffice-deployment-service.yml
 
 kubectl apply -f frontend-deployment-service.yml
+
+
+Kubernetes:
+
+kubectl get pods
+kubectl get services
+kubectl get deployments
+kubectl get persistentvolumeclaims
+kubectl get persistentvolumes
+kubectl get configmaps
+kubectl get secrets
+
+minikube service frontend-service
+minikube tunnel
