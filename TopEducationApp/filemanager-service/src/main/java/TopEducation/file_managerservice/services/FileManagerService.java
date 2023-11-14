@@ -106,7 +106,7 @@ public class FileManagerService {
 
                     HttpEntity<StudentModel> request = new HttpEntity<>(student, headers);
                     ResponseEntity<StudentModel> response = restTemplate.exchange(
-                            "http://localhost:8080/students",
+                            "http://gateway-service:8080/students",
                             HttpMethod.POST,
                             request,
                             new ParameterizedTypeReference<>() {
@@ -169,7 +169,7 @@ public class FileManagerService {
 
                         HttpEntity<ScoreModel> request = new HttpEntity<>(scoreModel, headers);
                         ResponseEntity<ScoreModel> response = restTemplate.exchange(
-                                "http://localhost:8080/scores",
+                                "http://gateway-service:8080/scores",
                                 HttpMethod.POST,
                                 request,
                                 new ParameterizedTypeReference<>() {

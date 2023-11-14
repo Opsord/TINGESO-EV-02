@@ -12,7 +12,8 @@ class ListStudentComponent extends Component {
         super(props);
         this.state = {
             selectedRUT: '',
-            students: [], // Initialize students state
+            // Initialize students list as an array
+            students: [], 
         };
         // Bind de los métodos
         this.addStudent = this.addStudent.bind(this);

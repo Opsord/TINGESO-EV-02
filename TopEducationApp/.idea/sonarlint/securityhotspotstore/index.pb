@@ -53,3 +53,13 @@ e
 +Minikube/adminoffice-deployment-service.yml,4\8\48f6ee85b03660f65c383ceed611a53d458c1bce
 K
 adminOffice-service/pom.xml,7\5\75b959b90a6c7a0844337e8ac6ab5e21dedd43d1
+¡
+qadminOffice-service/src/main/java/TopEducation/adminOfficeservice/controllers/AdministrationOfficeController.java,3\1\317f69ef10cc11e076b2d16ce419fd12c5acd70f
+›
+kadminOffice-service/src/main/java/TopEducation/adminOfficeservice/services/AdministrationOfficeService.java,0\2\02d444ca7394973f283f88b75b678bbd180286e5
+[
++Minikube/installment-deployment-service.yml,d\5\d5f24ffa74809278dacd68e342f9e0ac35a75c87
+“
+cfilemanager-service/src/main/java/TopEducation/file_managerservice/services/FileManagerService.java,4\4\4420cbbc1eda7ec8858cb27cc763279514abfca7
+†
+Vstudent-service/src/main/java/TopEducation/studentservice/services/StudentService.java,0\0\00a99b0b73349ac34c238ab2018bdc9a238182e0

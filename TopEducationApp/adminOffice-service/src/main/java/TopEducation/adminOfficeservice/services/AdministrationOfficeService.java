@@ -22,22 +22,12 @@ public class AdministrationOfficeService {
     @Autowired
     RestTemplate restTemplate;
 
-
-    // Links
-
-    // Get all students
-    String getAllStudentsURL = "http://localhost:8080/students";
-
-    // Get a student by RUT
-    String getStudentByRUTURL = "http://localhost:8080/students/byRUT/";
-
-
     // Communication with other microservices
 
     // Get a student by RUT
     public StudentModel findByRut(String rut) {
         ResponseEntity<StudentModel> response = restTemplate.exchange(
-                "http://localhost:8080/students/byRUT/" + rut,
+                "http://gateway-service:8080/students/byRUT/" + rut,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<StudentModel>() {
@@ -53,7 +43,7 @@ public class AdministrationOfficeService {
 
         HttpEntity<StudentModel> request = new HttpEntity<>(newStudent, headers);
         ResponseEntity<StudentModel> response = restTemplate.exchange(
-                "http://localhost:8080/students",
+                "http://gateway-service:8080/students",
                 HttpMethod.POST,
                 request,
                 new ParameterizedTypeReference<StudentModel>() {}
@@ -64,7 +54,7 @@ public class AdministrationOfficeService {
     // Get all scores by RUT
     public List<ScoreModel> getScoresByRUT(String rut) {
         ResponseEntity<List<ScoreModel>> response = restTemplate.exchange(
-                "http://localhost:8080/scores/byRUT/" + rut,
+                "http://gateway-service:8080/scores/byRUT/" + rut,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<ScoreModel>>() {
@@ -76,7 +66,7 @@ public class AdministrationOfficeService {
     // Get all installments by RUT
     public List<InstallmentModel> getInstallmentsByRUT(String rut) {
         ResponseEntity<List<InstallmentModel>> response = restTemplate.exchange(
-                "http://localhost:8080/installments/byRUT/" + rut,
+                "http://gateway-service:8080/installments/byRUT/" + rut,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<InstallmentModel>>() {
@@ -88,7 +78,7 @@ public class AdministrationOfficeService {
     // Get all paid installments by RUT
     public List<InstallmentModel> getPaidInstallmentsByRUT(String rut) {
         ResponseEntity<List<InstallmentModel>> response = restTemplate.exchange(
-                "http://localhost:8080/installments/byRUT/paid/" + rut,
+                "http://gateway-service:8080/installments/byRUT/paid/" + rut,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<InstallmentModel>>() {
@@ -100,7 +90,7 @@ public class AdministrationOfficeService {
     // Get all overdue installments by RUT
     public List<InstallmentModel> getOverdueInstallmentsByRUT(String rut) {
         ResponseEntity<List<InstallmentModel>> response = restTemplate.exchange(
-                "http://localhost:8080/installments/byRUT/overdue/" + rut,
+                "http://gateway-service:8080/installments/byRUT/overdue/" + rut,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<InstallmentModel>>() {
