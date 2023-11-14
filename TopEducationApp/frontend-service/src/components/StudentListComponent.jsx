@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -10,10 +11,7 @@ class ListStudentComponent extends Component {
     constructor(props) {
         
         super(props);
-        this.state = {
-            selectedRUT: '',
-            students: [], // Initialize students state
-        };
+        this.state = {selectedRUT: '', students: [],};
         // Bind de los métodos
         this.addStudent = this.addStudent.bind(this);
         this.viewStudent = this.viewStudent.bind(this);
@@ -24,6 +22,7 @@ class ListStudentComponent extends Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
     };
+    
 
     addStudent() {
         // Add a student
@@ -66,6 +65,9 @@ class ListStudentComponent extends Component {
     }
 
     render() {
+
+        const { studentList } = this.props;
+        
         return (
             <div>
                 <StudentPageStyle>
@@ -83,8 +85,7 @@ class ListStudentComponent extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.students.map(
-                                    // Map over the students state to create a table row for each student
+                                {studentList.map(
                                     (student) => (
                                         <tr key={student.rut}>
                                             <td> {student.rut} </td>
