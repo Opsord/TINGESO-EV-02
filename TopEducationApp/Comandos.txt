@@ -15,7 +15,7 @@ cd ..
 cd .\gateway-service\
 mvn clean install -DskipTests=True
 docker build -t opsord/tem-gateway-service .
-docker push opsord/tem-eureka-service
+docker push opsord/tem-gateway-service
 cd ..
 
 cd .\installment-service\

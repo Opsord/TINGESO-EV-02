@@ -39,3 +39,11 @@ b
 2config-service/src/main/resources/application.yaml,2\a\2a6ba4ad9b92d3b8f5ba002d23177477f3d03dd3
 <
 Comandos.txt,b\2\b208daadba4819771ac545d76dce1baf31b8feb8
+[
++Minikube/filemanager-deployment-service.yml,5\8\58be43bfec591b0b9184dd39865b40f9c9914bdb
+N
+filemanager-service/Dockerfile,0\4\046d3f17f7b2f794982b2e72f0e4210eb6dbe6c7
+e
+5filemanager-service/src/main/resources/bootstrap.yaml,f\6\f6fc25b74a12c30f05c525fb01669fcaa2f916c3
+e
+5adminoffice-service/src/main/resources/bootstrap.yaml,f\c\fcc5c6dc75288016031a2af11db37bd8c54d334b
