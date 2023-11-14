@@ -45,3 +45,11 @@ e
 5filemanager-service/src/main/resources/bootstrap.yaml,f\6\f6fc25b74a12c30f05c525fb01669fcaa2f916c3
 V
 &Minikube/config-deployment-service.yml,b\b\bb88899b744a2a2b395cda130c5b6ba47f5b196c
+T
+$config-data/adminOffice-service.yaml,2\0\20ff317c66bce474023e16a9ab9117a7b2249598
+e
+5adminOffice-service/src/main/resources/bootstrap.yaml,7\7\77d943db1e64f6447415753c2ff3a9da27974172
+[
++Minikube/adminoffice-deployment-service.yml,4\8\48f6ee85b03660f65c383ceed611a53d458c1bce
+K
+adminOffice-service/pom.xml,7\5\75b959b90a6c7a0844337e8ac6ab5e21dedd43d1

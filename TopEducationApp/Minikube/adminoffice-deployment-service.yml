@@ -30,9 +30,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: adminoffice-service
+  name: adminOffice-service
   labels:
-    app: adminoffice-service
+    app: adminOffice-service
 spec:
   selector:
     app: adminoffice-deployment
