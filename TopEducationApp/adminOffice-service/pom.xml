@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>TopEducation</groupId>
-	<artifactId>admin-office-service</artifactId>
+	<artifactId>adminOffice-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>administration_office-service</name>
 	<description>Administration office service</description>
