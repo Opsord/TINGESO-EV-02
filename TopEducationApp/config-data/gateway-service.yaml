@@ -41,6 +41,6 @@ spring:
           predicates:
             - Path=/files/**
         - id: adminoffice-service
-          uri: lb://adminoffice-service
+          uri: lb://adminOffice-service
           predicates:
             - Path=/administrationOffice/**

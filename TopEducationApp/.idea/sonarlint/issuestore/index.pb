@@ -11,8 +11,6 @@ N
 config-data/score-service.yaml,9\5\95bda941678ce6705c6bad23ec7d13ec5b1766b6
 P
  config-data/student-service.yaml,c\9\c9771dec3cc633404c24b07c752da986f733f68f
-T
-$config-data/adminoffice-service.yaml,3\8\38491a2c4c29492d34f814287b6c3af8bb866038
 M
 Minikube/postgres-secrets.yml,b\f\bf9559c7471abb70ea87b359ee18cb3ac999cb4d
 O
@@ -45,5 +43,5 @@ N
 filemanager-service/Dockerfile,0\4\046d3f17f7b2f794982b2e72f0e4210eb6dbe6c7
 e
 5filemanager-service/src/main/resources/bootstrap.yaml,f\6\f6fc25b74a12c30f05c525fb01669fcaa2f916c3
-e
-5adminoffice-service/src/main/resources/bootstrap.yaml,f\c\fcc5c6dc75288016031a2af11db37bd8c54d334b
+V
+&Minikube/config-deployment-service.yml,b\b\bb88899b744a2a2b395cda130c5b6ba47f5b196c
