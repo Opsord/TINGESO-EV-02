@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: adminoffice-deployment
+  name: admin-office-deployment
   labels:
-    app: adminoffice-deployment
+    app: admin-office-deployment
 spec:
   selector:
     matchLabels:
-      app: adminoffice-deployment
+      app: admin-office-deployment
   replicas: 1
   template:
     metadata:
       labels:
-        app: adminoffice-deployment
+        app: admin-office-deployment
     spec:
       containers:
         - name: tem-adminoffice-service
@@ -35,7 +35,7 @@ metadata:
     app: admin-office-service
 spec:
   selector:
-    app: adminoffice-deployment
+    app: admin-office-deployment
   ports:
     - protocol: TCP
       port: 8086
