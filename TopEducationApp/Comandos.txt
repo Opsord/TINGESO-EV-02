@@ -72,23 +72,29 @@ kubectl apply -f postgres-dp-sv-pvc.yml
 
 kubectl exec -it <postgres-deploy> bash -- psql -h postgres -U postgres
 
+Apply:
+
 kubectl apply -f config-deployment-service.yml
-
 kubectl apply -f eureka-deployment-service.yml
-
 kubectl apply -f gateway-deployment-service.yml
-
 kubectl apply -f installment-deployment-service.yml
-
 kubectl apply -f score-deployment-service.yml
-
 kubectl apply -f student-deployment-service.yml
-
 kubectl apply -f filemanager-deployment-service.yml
-
 kubectl apply -f adminoffice-deployment-service.yml
-
 kubectl apply -f frontend-deployment-service.yml
+
+Delete:
+
+kubectl delete deployment frontend-deployment
+kubectl delete deployment admin-office-deployment
+kubectl delete deployment filemanager-deployment
+kubectl delete deployment student-deployment
+kubectl delete deployment score-deployment
+kubectl delete deployment installment-deployment
+kubectl delete deployment gateway-deployment
+kubectl delete deployment eureka-deployment
+kubectl delete deployment config-deployment
 
 
 Kubernetes:
